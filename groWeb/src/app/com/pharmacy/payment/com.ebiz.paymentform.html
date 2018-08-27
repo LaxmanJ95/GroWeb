@@ -1,0 +1,85 @@
+<div id="makepayment">
+
+
+    <div class="panel panel-primary ">
+        <div class="panel-heading">
+            <h3 class="panel-title"> Payment </h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel panel-default ">
+                        <div class="panel-heading">
+                            Make Payment 
+                        </div>
+                        <div class="panel-body">
+                            <div>
+                                    
+                               <form #f="ngForm" (ngSubmit)="onSubmit(f)" method="post" action="#" >
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="form-group">
+                                                <label for="Order">Order #:</label> {{order.id}}<BR>
+                                                <label for="TotalPrice">Current Order Price :</label> {{order.totalPrice}}<BR>
+                                                 <label for="Customer Balance">Total Balance  :{{customerBalance}}</label> 
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="form-group">
+                                                <label for="paymentMethod">Payment Method :</label>
+                                                <BR>
+                                                <input type="radio" name="paymentMethod" ngModel #paymentMethod="ngModel" selected value="Pay by Cash" />                                                Pay by Cash
+                                                <BR>
+                                                <input type="radio" name="paymentMethod" ngModel #paymentMethod="ngModel" value="Pay by Check" /> Pay by
+                                                Check
+                                                <BR>
+                                                <input type="radio" name="paymentMethod" ngModel #paymentMethod="ngModel" value="Pay by Card" /> Pay by
+                                                Card
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                      <div class="row">
+                                          <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="form-group">
+                                                <label for="paymentAmount">Payment Amount* </label>
+                                                <input type="text" name="paymentAmount" ngModel #paymentAmount="ngModel" class="form-control"
+                                                    placeholder="Enter Amount here" tabindex="4" required>
+                                            </div>
+
+                                        </div>           
+                                      </div>                       
+                                       <div class="row">
+                                          <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="form-group">
+                                                <label for="paymentAgent">Payment Collected By </label>
+                                                <input type="text" name="paymentAgent" ngModel #paymentAgent="ngModel" class="form-control"
+                                                    placeholder="Payment collector" tabindex="4" required>
+                                            </div>
+
+                                        </div>           
+                                      </div>  
+                                    <hr class="colorgraph">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-4 pull-right"><input type="submit"  [disabled]="!f.valid" value="Make Payment"
+                                                class="btn btn-primary btn-block " tabindex="7"></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+</div>

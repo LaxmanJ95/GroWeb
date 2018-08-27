@@ -1,0 +1,189 @@
+
+        <div class="panel panel-primary " >
+            <div class="panel-heading">
+                <h3 class="panel-title">Edit Order</h3>
+            </div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-2 pull-right">
+                        <input type="button"  (click)="saveOrder()" value="Save" class="btn btn-primary btn-block btn-md">
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div> &nbsp;</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 col-xs-12">
+                        <div class="panel panel-default ">
+                            <div class="panel-heading">
+                                Order Summary 
+                            </div>
+                            <div class="panel-body">
+                            
+                                Order# : {{order.id}}
+                                <BR>Order Placed: {{order.orderDate}}
+                                <BR>
+                                 Total items : {{order.totalQuantity}} <BR>                             
+                               
+                                Order Status: <select class="form-control" [(ngModel)]=order.statusId >
+                                    <option value="1" >Submitted</option>
+                                    <option value="2" >Pending</option>
+                                    <option value="3" >Shipped</option>
+                                    <option value="8" >Delivered</option>
+                                    <option value="4" >Received</option>
+                                </select>
+                                
+                        </div>
+                    </div>
+                    </div>                  
+                    <div class="col-md-4 col-xs-12">
+                        <div class="panel panel-default ">
+                            <div class="panel-heading">
+                                Billing Summary 
+                            </div>
+                            <div class="panel-body">
+                                <div >
+                                    Item(s) subtotal: 
+                                    $ <input type="text" [(ngModel)]=order.totalPrice> <BR>
+                                    Payment Method: {{order.paymentMethod}}
+                                 </div>
+                                <BR><b>Billing Address:</b>
+                             
+                                <address>
+                                    {{billingAddress.street}}
+                                    <BR> {{billingAddress.city}} {{billingAddress.state}} {{billingAddress.zipcode}}
+                                </address>                             
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <div  *ngIf="order.shippingAddress != null" class="col-md-4 col-xs-12">
+                        <div class="panel panel-default ">
+                            <div class="panel-heading">
+                                Shipping Address
+                            </div>
+                            <div class="panel-body">
+                                <b>Shipping Address:</b>
+                                <BR>
+                                <address>
+                                    <input type="text" [(ngModel)]=order.shippingAddress.street maxlength="100">
+                                    <input type="text" [(ngModel)]=order.shippingAddress.street2 maxlength="100">
+                                    <BR>  <input type="text" [(ngModel)]=order.shippingAddress.city>  
+                                    <input type="text" [(ngModel)]=order.shippingAddress.state maxlength="2"> 
+                                    <input type="text" [(ngModel)]=order.shippingAddress.zipcode>
+                                     <input type="text" [(ngModel)]=order.shippingAddress.country>
+                                </address>
+                                Shipping Method: Standard
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+    <div class="row">
+            <div class="col-xs-12">
+                <div class="panel panel-default ">
+                    <div class="panel-heading" >
+                        Items Ordered
+                    </div>
+                    <div class="panel-body">
+                    <div id="table">
+                        <div class="row col-md-12 hidden-xs">
+                            <div class="col-md-6">Item</div>
+                            <div class="col-md-2">Quantity </div>
+                            <div class="col-md-2">Price</div>
+                            <div class="col-md-2">Total Price</div>
+                        </div>
+                        <div class="row col-md-12 hidden-xs"><HR></div>
+                        <div *ngFor="let orderDetail of order.orderDetail; let i = index; ">
+                            <div class="row col-md-12">
+                                <div class="col-md-6">
+                                    <span class="visible-xs"> Desc: {{orderDetail.productName}} </span> 
+                                    <span class="hidden-xs"> {{orderDetail.productName}} </span> 
+                                    <span *ngIf="orderDetail.productId==1">
+                                      <a (click)="showUpoloadedFiles(orderDetail.orderId,orderDetail.cartId)" data-toggle="modal" data-target="#myModal"><font color="green" ><i class="fa fa-file" aria-hidden="true"></i></font></a>
+                                    </span>
+                                </div>
+                                <div class="col-md-2">
+                                    <span class="visible-xs"> Quantity: <input type="text" [(ngModel)]=orderDetail.quantity (change)="quantityUpdate()"> </span> 
+                                    <span class="hidden-xs"> <input type="text" [(ngModel)]=orderDetail.quantity (change)="quantityUpdate()"></span> 
+                                </div>
+                                <div class="col-md-2">
+                                    <span class="visible-xs"> Price: {{orderDetail.price}} </span> 
+                                    <span class="hidden-xs"> {{orderDetail.price}}</span> 
+                                </div>
+                                <div class="col-md-2">
+                                    <span class="visible-xs"> Total Price: {{orderDetail.quantity * orderDetail.price}} </span> 
+                                    <span class="hidden-xs"> {{(orderDetail.quantity * orderDetail.price).toFixed(2)}}</span> 
+                                </div>
+
+
+
+                                <div class="row col-md-12">
+                                    <HR>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg modal-xs">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+         
+          <img class="img-responsive" src="{{firstPrescription}}" width="500" height="300"  />
+        </div>
+        <div class="modal-footer">
+            <div class="row">
+             <div class="col-md-3" *ngFor="let presFile of prescriptionUploads; let i = index; ">
+                 <a  (click)="firstPrescription=presFile" > <img class="img-responsive" src="{{presFile}}" width="100" height="100" /> </a>
+             </div>
+            </div> 
+        </div>
+      </div>
+      
+    </div>
+  </div>         
+                <!--div class="row">
+                    <div class="col-xs-12">
+                        <div class="panel panel-default ">
+                            <div class="panel-heading">
+                                Items Ordered
+                            </div>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Quantity </th>
+                                        <th>Price</th>
+                                        <th>Total Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let orderDetail of order.orderDetail; let i = index; trackBy: trackByFn">
+                                        <td> {{orderDetail.itemDescription}} </td>
+                                        <td>  <input type="text" [(ngModel)]=orderDetail.quantity> </td>
+                                        <td>{{orderDetail.price}}</td>
+                                        <td> {{orderDetail.quantity * orderDetail.price}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div-->
+
+            </div>
+        </div>
+

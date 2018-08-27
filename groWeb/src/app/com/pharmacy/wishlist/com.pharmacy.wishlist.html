@@ -1,0 +1,176 @@
+<div id="viewdrug" class="row">
+        <div id="view-drug" class="col-xs-12 col-md-12">
+            <div class="panel panel-primary ">
+                <div class="panel-heading" >
+                    <h3 class="panel-title">Wish List</h3>
+                </div>
+                <div class="panel-body">
+                    <div *ngFor="let wishItem of wishLists; let i = index; " class="">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-3 img-col">
+                            <img class="img-responsive" src="{{wishItem.imageFile}}">
+                        </div>
+                        <div class="col-xs-12 col-md-3 ">
+                            <h3> {{wishItem.name}} </h3>
+                            <h4> Price : $
+                                <B> <font color="red"> {{wishItem.costPrice}} </font></B> </h4>
+                            <h5><span><B>Cash on Delivery eligible</B></span></h5>
+                            <h5> <span *ngIf="wishItem.quantity>0"> <B> <font color="green"> In Stock </font></B> </span> </h5>
+                            <h5> <span *ngIf="wishItem.quantity<1"> <B> <font color="green"> Out Of Stock  </font></B> </span> </h5>
+                        </div>
+                        <div class="col-md-2"></div>
+                        <div class="col-xs-12 col-md-3 ">
+                            <div class="well">
+                                <!-- <h4> Price :
+                               <\     <B> <font color="red"> $ {{product.specialPrice}} </font></B> </h4> -->
+                                <div class="row">
+                                    <div class="col-md-4"><label class="label">Quantity :</label></div>
+                                    <div class="col-md-4">
+                                        <input type="text" maxlength="2" OnlyNumber="true" class="form-control" [(ngModel)]=wishItem.quantity>
+                                        
+                                    </div>
+                                    <div class="remove-wishlist col-md-3">
+                                        <a (click)="deleteWishList(wishItem.id)"><i class="fa fa-trash-o"></i></a>
+                                    </div>
+                                </div>
+                                <div class="row add-cart">
+                                     <span *ngIf="!wishItem.inCart"> <input type="button"  (click)="add2Cart(wishItem.id,wishItem.productId,wishItem.quantity)" value="Add to Cart" class="btn btn-success btn-block add2cart"></span>
+                                     <span *ngIf="wishItem.inCart"> <input type="button"   value="Already in Cart" class="btn btn-success btn-block add2cart"></span>
+                                </div>
+    
+    
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-3">
+                            <div class="remove-wishlist">
+                                <a (click)="deleteWishList(wishItem.id)"><i class="fa fa-trash-o"></i></a>
+                            </div>
+                        </div> -->
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-xs-12  col-md-10 ">
+                            <h4>Description </h4>
+                            <BR>
+                            {{wishItem.desc}}
+                           
+                        </div>
+                        <div class="col-md-2">
+                                <div class="remove-wishlist">
+                                    <a (click)="deleteWishList(wishItem.id)"><i class="fa fa-trash-o"></i></a>
+                                </div>
+                            </div>
+    
+                    </div> -->
+<hr>
+                    </div>
+                    <div *ngIf="wishLists?.length == 0">
+                        <h4>No Items were found.</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 hidden-xs hidden-sm pull-right">
+                            <button   (click)="back2SearchDrug()" value="Back to Search" class="btn btn-primary btn-block back-btn">
+                                Back to Search
+                            </button>
+                        </div>
+                        <div class="col-md-3 visible-xs visible-sm pull-right">
+                                <button   (click)="back2SearchDrug()" value="Back to Search" class="btn btn-primary btn-block ">
+                                <i class="fa fa-reply" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+
+<!-- <div id="viewcart" class="row">
+        <div id="view-cart" class="col-xs-12 col-md-9">
+                <div class="panel panel-primary " >
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Wish List</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div id="table">
+                            <div class="row col-md-12 hidden-xs">
+                                <div class="col-md-2">Product </div>
+                                <div class="col-md-5">Description </div>
+                                <div class="col-md-1">Price</div>
+                                <div class="col-md-2">Quantity</div>
+                                <div class="col-md-2">Total price</div>
+                            </div>   
+                            <div class="row col-md-12"><HR></div>
+                           
+                            <div *ngFor="let wishItem of wishLists; let i = index; ">
+                              <div class="row col-md-12">
+                                <div class="col-md-2"> <img class="img-responsive" src="{{wishItem.imageFile}}"> </div>
+                                <div class="col-md-5"> 
+                                    <div>
+                                        <a (click)="viewItem(wishItem.productId)"> <h4> {{wishItem.name}} </h4></a> <BR>
+                                    </div>
+                                    
+                                    <a (click)="deleteWishList(wishItem.id)" style="font-size: 14px;"> 
+                                        <font color="red"> <i class="fa fa-times-circle" aria-hidden="true"></i> Delete </font>
+                                        </a>
+                                </div>
+                                <div class="col-md-1">
+                                    <span class="visible-xs"> Price: ${{wishItem.price}} </span>
+                                    <span class="hidden-xs">   ${{wishItem.price}} </span>  
+                                </div>
+                                <div class="col-md-2"> 
+                                    <span class="visible-xs"> 
+                                         
+                                        Quantity:  
+                                        <select placeholder=".col-xs-2" class="form-control" [(ngModel)]="wishItem.quantity" (change)="calculateTotalPrice(i,$event.target.value)" >
+                                        <option value="1" >1</option>
+                                        <option value="2"> 2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                        
+                                       
+                                    </span>
+                                    <span class="hidden-xs">  
+                                      
+                                       
+                                        <select class="form-control" [(ngModel)]="wishItem.quantity" (change)="calculateTotalPrice(i,$event.target.value)" >
+                                        <option value="1" >1</option>
+                                        <option value="2"> 2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                      
+                                    </span>  
+                              
+                                </div>
+                                <div class="col-md-2">
+                                    
+                                    <span class="visible-xs"> Total Price:  ${{wishItem.price * wishItem.quantity}} </span>
+                                    <span class="hidden-xs">   ${{wishItem.price * wishItem.quantity | number : '1.2-2'}}</span>  
+    
+                                </div>
+                              </div> 
+                               <div class="row col-md-12"><HR></div>    
+                            </div>
+                            
+                            <div *ngIf="wishLists?.length == 0" class="row col-md-12 hidden-xs">
+                                <p> No Items were found.</p></div>   
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div> -->

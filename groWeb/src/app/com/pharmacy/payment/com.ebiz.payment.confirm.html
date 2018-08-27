@@ -1,0 +1,39 @@
+<div id="makepayment">
+
+
+    <div class="panel panel-primary ">
+        <div class="panel-heading">
+            <h3 class="panel-title">Payment Confirmation</h3>
+        </div>
+        
+        
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-1 col-md-1">
+                <i *ngIf="!paymentInfo.error" class="fa fa-thumbs-up fa-4x" style="color:green" aria-hidden="true"></i> 
+                <i *ngIf="paymentInfo.error" class="fa fa-exclamation-triangle fa-4x" style="color:red" aria-hidden="true"></i> 
+                </div>
+                <div class="col-xs-11 col-md-11">
+
+                 <div *ngIf="!paymentInfo.error">   
+                Your payment amount of  <B>$ {{paymentInfo.paymentAmount}} </B>has been successfully submitted and sent confirmation to <B> {{paymentInfo.email}} </B>. <BR>
+                
+                 </div> 
+                 <div *ngIf="paymentInfo.error">   
+                Error occured while posting your payment amount of  <B>$ {{paymentInfo.paymentAmount}} </B> Please contact cusomer care.
+                
+                 </div> 
+                </div>
+            </div>
+            <hr class="colorgraph">
+            <div class="row">
+                <div class="col-xs-6 col-md-6">
+                     <a class="btn btn-primary " (click)="showDashboard()">  Continue shopping </a>
+                    
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

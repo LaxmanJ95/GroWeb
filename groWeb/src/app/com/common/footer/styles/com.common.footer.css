@@ -1,0 +1,10 @@
+.my-footer-copyright_container {
+    text-align: center;
+    padding: 20px 0;
+    font-size: 16px;
+    font-family: 'FFDINWeb';
+    color: #5bba5e;
+  }
+  #footer {
+    border-top: 10px solid #5bba5e;
+  }

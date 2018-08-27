@@ -1,0 +1,191 @@
+<div>
+    <div>
+        <div class="panel panel-primary ">
+            <div class="panel-heading">
+                <h3 class="panel-title"> Customer Orders</h3>
+            </div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-2 pull-right">
+                        <input type="button" (click)="downloadXls()"  value="Download" class="btn btn-primary btn-block btn-md">
+                    </div>
+                    <div class="col-md-2 pull-right">
+                        <input type="button" value="Print" (click)="print()" class="btn btn-primary btn-block btn-md">
+                    </div>
+                </div>
+                <div class="row">
+                    <div> &nbsp;</div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-xs-12">
+                        <div class="panel panel-default ">
+                            
+                           
+                            <div class="panel-body">
+                                <div id="table">
+                                        <div class="header  hidden-xs">
+                                                <div class="row">
+                                                        <div class="col-md-1 col-sm-1 header-col">
+                                                                <a  [ngClass]="{'tips-list__title--active' : isOpen}" (click)="showContent(isOpen)">  <i class="fa fa-search" aria-hidden="true"></i></a>
+                                                            </div>
+                                                    <div class="col-md-1 col-sm-1 header-col">
+                                                      <h4>Order</h4>
+                                                    </div> 
+                                                    <div class="col-md-3 col-sm-3 header-col">
+                                                        <h4>Order Date</h4>
+                                                    </div>
+                                                    <div class="col-md-1 col-sm-1 header-col">
+                                                        <h4>Total Items</h4>
+                                                    </div>
+                                                    <div class="col-md-1 col-sm-1 header-col">
+                                                        <h4>Total Price</h4>
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-2 header-col">
+                                                        <h4>Status</h4>
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-2 header-col">
+                                                        <h4>Customer</h4>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="search-row  hidden-xs " [hidden]="!isOpen">
+                                                <div class="row">
+                                                    <div class="col-md-1 col-sm-1">
+                                                            <button class="btn btn-success btn-clear" (click)="refresh()"  type="submit">Clear</button>
+                                                    </div>
+                                                     <div class="col-md-1 col-sm-1 header-col">
+                                                            <input type="text" class="form-control" 
+                                                            id="searchId"  #searchId placeholder="Search"/>
+                                                        <!-- <button class="btn btn-default btn-clear" (click)="refresh()" type="submit">Clear</button> -->
+                                                    </div> 
+                                                    <div class="col-md-3 col-sm-3 header-col">
+                                                        <div class="row">
+                                                            <div class="col-md-3"><label>From:</label></div>    
+                                                            <div class="col-md-6">
+                                                                    <material-datepicker  [(ngModel)]="search.fromDate"(onSelect)="dateFrom($event)"></material-datepicker>
+                                                                    <!-- <angular2-date-picker (onDateSelect)="dateFrom($event)" [(ngModel)]="search.toDate" [settings]="settings"></angular2-date-picker> -->
+                                                                    <!-- <input type="date" class="form-control"  [(ngModel)]="search.fromDate"
+                                                                id="searchFromDate"  placeholder="mm/dd/yyyy" (keyup.enter)="dateFrom($event.target.value)"/> --></div>
+                                                        </div>
+                                                        <div class="row">
+                                                                <div class="col-md-3"><label>To:</label></div>    
+                                                                <div class="col-md-6">
+                                                                        <material-datepicker  [(ngModel)]="search.toDate"   (onSelect)="dateTo($event)"></material-datepicker>
+                                                                        <!-- <angular2-date-picker (onDateSelect)="dateTo($event)" [(ngModel)]="search.toDate" [settings]="settings"></angular2-date-picker> -->
+                                                                    </div>  
+                                                                <!-- <input type="text" class="form-control"  [(ngModel)]="search.toDate"
+                                                                id="searchEmail"  placeholder="mm/dd/yyyy" (keyup.enter)="dateTo($event.target.value)"/> -->
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1 col-sm-1 header-col">
+                                                        <input type="text" class="form-control" 
+                                                         id="searchName" #searchItems   type="text"  placeholder="Search"/>
+                                                    </div>
+                                                    <div class="col-md-1 col-sm-1 header-col">
+                                                       <input type="text" class="form-control" 
+                                                        id="searchPhone" #searchPrice  placeholder="Search"/>
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-2 header-col">
+                                                            <select class="form-control"  id="searchStatus" (change)="onChange($event.target.value)" [(ngModel)]="search.status"  #searchStatus>
+                                                                    <option [value]="0" ></option>    
+                                                                <option [value]="1" >Submitted</option>
+                                                                    <option [value]="2" >Pending</option>
+                                                                    <option [value]="3" >Shipped</option>
+                                                                    <option [value]="8" >Delivered</option>
+                                                                    <option [value]="4" >Received</option>
+                                                                    <option [value]="9" >Cancelled</option>
+                                                                </select>
+                                                        <!-- <input type="text" class="form-control" 
+                                                         placeholder="Search"/> -->
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-2 header-col">
+                                                        <input type="text" class="form-control" name="active" 
+                                                         id="searchName" #searchName  placeholder="Search"/>
+                                                    </div>
+                                                   
+                                                </div>
+                                                
+                                            </div>
+                                    <div class="row col-md-12 hidden-xs">
+                                        <HR>
+                                    </div>
+
+
+
+                                    <div *ngFor="let order of orders; let i = index; ">
+                                        <div *ngIf="i <10">
+                                        <div class="row col-md-12">
+                                                <div class="col-md-1 col-sm-1">
+                                                        <i  class="fa fa-pencil-square-o fa-2x" style="color: #727448;" (click)="editOrder(order.id)" aria-hidden="true"></i> 
+                                                        <!-- <input type="button" (click)="editOrder(order.id)" value="Edit" class="btn btn-danger btn-block btn-sm">                                             -->
+                                                   </div>
+                                            <div class="col-md-1 col-sm-1">
+                                                 <span class="visible-xs"> Order#: <A (click)="viewMyOrder(order.id)"> {{order.id}} </A></span>
+                                                 <span class="hidden-xs">   <A (click)="viewMyOrder(order.id)"> {{order.id}} </A> </span>                
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                 <span class="visible-xs"> Order Date#: <B> {{order.orderDate}} </B></span>
+                                                 <span class="hidden-xs">   {{order.orderDate}} </span>                                                   
+                                            </div>
+                                            <div class="col-md-1 col-sm-1">
+                                                 <span class="visible-xs"> Quantity: <B> {{order.totalQuantity}} </B></span>
+                                                 <span class="hidden-xs">  {{order.totalQuantity}} </span>                                                   
+                                            </div>
+                                            <div class="col-md-1 col-sm-1">
+                                                 <span class="visible-xs"> Price: <B> $ {{order.totalPrice}} </B></span>
+                                                 <span class="hidden-xs">   $ {{order.totalPrice}} </span>                                                   
+                                            </div>
+                                            <div class="col-md-2 col-sm-2">
+                                                 <span class="visible-xs"> Order Status#: <span *ngIf="order.status == 'Cancelled'"><b style="color:red"> {{order.status}}</b></span>
+                                                 <span *ngIf="order.status != 'Cancelled'"> {{order.status}}</span></span>
+                                                 <span class="hidden-xs">  <span *ngIf="order.status == 'Cancelled'"><b style="color:red"> {{order.status}}</b></span>
+                                                 <span *ngIf="order.status != 'Cancelled'"> {{order.status}}</span>  </span>                                                   
+                                            </div>
+                                            <div class="col-md-2 col-sm-2">
+
+                                                <img *ngIf="order.profileImageUrl"  class="img-circle" src="{{order.profileImageUrl}}" height="30px" weight="30px">
+                                                <img *ngIf="order.profileImageUrl==null"  class="img-circle" src="app/img/profile-avatar.png" height="30px" weight="30px">
+                                                 <span class="visible-xs"> User: <B> {{order.userName}} </B></span>
+                                                 <span class="hidden-xs">   {{order.userName}}  </span>                                                   
+                                            </div>
+                                            
+                                        </div>
+                                               
+                                          
+
+                                      
+                                        <div class="row col-md-12">
+                                            <HR>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+                <div align="center">
+                        <div>
+                            <div class="col-md-12 col-sm-12 col-xs-12" style="padding-right:0px;padding-left: 0px;">
+                                <span (click)="start()">    <i class="fa fa-backward" aria-hidden="true"></i></span>
+                                 <span (click)="previous()">   <i class="fa fa-caret-left" aria-hidden="true"></i></span>
+                                  <span class="count"> <input type="text" class="form-control pagination-input"  [(ngModel)]="currentPage" (keyup.enter)=pagesearch($event.target.value)/> of {{lastPage}}</span>
+                                 
+                                  <span (click)="next()"> <i class="fa fa-caret-right" aria-hidden="true"></i></span>
+                                   <span (click)="end()"><i class="fa fa-forward" aria-hidden="true"></i></span>
+                               </div>
+                        </div>
+           
+           </div>
+
+            </div>
+        </div>

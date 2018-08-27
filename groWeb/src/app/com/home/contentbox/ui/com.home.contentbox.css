@@ -1,0 +1,16 @@
+.panel-title{
+    font-weight: 600;
+}
+.panel-primary{
+    border-color: #5bba5e;
+}
+.panel-primary > .panel-heading {
+    color: #fff;
+    background-color: #5bba5e;
+    border-color: #5bba5e;
+}
+.btn-primary {
+    color: #ffffff;
+    background-color: #5bba5e;
+    border-color: #5bba5e;
+}

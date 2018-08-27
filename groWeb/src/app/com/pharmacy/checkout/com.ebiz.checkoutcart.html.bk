@@ -1,0 +1,131 @@
+<div id="checkoutcart" class="row">
+    <div id="checkout-cart" class="col-xs-12 col-md-9">
+        <div>
+            <div class="panel panel-primary ">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Checkout Options</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="panel panel-default ">
+                        <div class="panel-heading">
+                             Address
+                        </div>
+                        <div class="panel-body">
+                            <div *ngIf="shippingAddress.id!=null" class="well well-sm">
+                                <input type="checkbox" checked value="address" /> {{shippingAddress.street}}, {{shippingAddress.city}}
+                                {{shippingAddress.state}} {{shippingAddress.zipcode}}
+                            </div>
+                            <div class="alert alert-danger" *ngIf="shippingAddress.id==null"> 
+                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                                Please provide shipping address </div>
+
+                            <div>
+                                <a #addAddressButton href="#demo" class="btn btn-info" data-toggle="collapse">Add/Edit Address</a>
+                            </div>
+                            <div> &nbsp;</div>
+                            <div id="demo" class="collapse  ">
+
+                                <div class="panel panel-default ">
+
+                                    <div class="panel-body">
+                                          <div class="control-group col-md-4 col-xs-12">
+                                                <label for="name" class="control-label">Name:</label>
+                                                 <div class="controls">
+                                                    <input name="name" [(ngModel)]="shippingAddress.name" placeholder="Dilip" type="text" value="" id="name" class="form-control">
+                                                </div>
+                                          </div>
+                                          <div class="control-group col-md-4 col-xs-12">
+                                                <label for="street" class="control-label">Street:</label>
+                                                 <div class="controls">
+                                                    <input name="street" [(ngModel)]="shippingAddress.street" placeholder="1 Anna street" type="text" value="" id="street" class="form-control">
+                                                </div>
+                                          </div>
+                                          <div class="control-group col-md-4 col-xs-12">
+                                                <label for="street2" class="control-label">Street2:</label>
+                                                 <div class="controls">
+                                                    <input name="street2" [(ngModel)]="shippingAddress.street2" placeholder="Anna nagar" type="text" value="" id="street2" class="form-control">
+                                                </div>
+                                          </div>
+                                          <div class="control-group col-md-4 col-xs-12">
+                                                <label for="city" class="control-label">City:</label>
+                                                 <div class="controls">
+                                                    <input name="city" [(ngModel)]="shippingAddress.city" placeholder="Chennai" type="text" value="" id="city" class="form-control">
+                                                </div>
+                                          </div>
+                                          <div class="control-group col-md-4 col-xs-12">
+                                                <label for="state" class="control-label">State:</label>
+                                                 <div class="controls">
+                                                    <input name="state" [(ngModel)]="shippingAddress.state" placeholder="Tamil Nadu" type="text" value="" id="state" class="form-control">
+                                                </div>
+                                          </div>
+                                          <div class="control-group col-md-4 col-xs-12">
+                                                <label for="zipcode" class="control-label">Zipcode:</label>
+                                                 <div class="controls">
+                                                    <input name="zipcode" [(ngModel)]="shippingAddress.zipcode" placeholder="600040" type="text" value="" id="zipcode" class="form-control">
+                                                </div>
+                                          </div>
+                                          <!--div class="control-group col-md-4 col-xs-12">
+                                                <label for="country" class="control-label">Country:</label>
+                                                 <div class="controls">
+                                                    <input name="country" [(ngModel)]="shippingAddress.country" placeholder="India" type="text" value="" id="country" class="form-control">
+                                                </div>
+                                          </div-->     
+                                          <div class="control-group col-md-4 col-xs-12 pull-right">
+                                                <label for="country" class="control-label">&nbsp;</label>
+                                                <div class="controls"> <button type="button" (click)="addNewAddress()" class="btn btn-large btn-primary" >Save Address</button></div>
+                                          </div>                                          
+                                    </div> 
+                                    
+              
+                                </div>
+                            </div>   
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default ">
+                        <div class="panel-heading">
+                            Payment Method
+                        </div>
+                        <div class="panel-body">
+
+                            <input type="radio" [(ngModel)]="payMethod" selected value="Pay by Cash" /> Pay by Cash <BR>
+                            <input type="radio" [(ngModel)]="payMethod" value="Pay by Check" /> Pay by Check
+                            <BR>
+                            <input type="radio" [(ngModel)]="payMethod" value="Pay by Card" /> Pay by Card
+
+                        </div>
+                    </div>
+                    <div class="panel panel-default ">
+                        <div class="panel-heading">
+                            Notification Preference
+                        </div>
+                        <div class="panel-body">
+                            Email: <input type="checkbox" checked value="email" disabled/> {{email}}
+                            <BR> Phone: <input type="checkbox" checked value="phone" disabled/> {{primaryPhone}}
+                        </div>
+                    </div>
+
+                    <!--div class="pull-right col-xs-12 col-md-4">
+                        <input type="button" (click)="placeOrder()" value="Place Order" class="btn btn-primary btn-block btn-lg">
+                    </div-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="cartsummary" class="col-xs-12 col-md-3">
+        <div class="panel panel-primary ">
+            <div class="panel-heading">
+                <h3 class="panel-title">Order Summary</h3>
+            </div>
+            <div class="panel-body">
+                Total Items : {{cartTotal.totalQuantity}}
+                <BR> Total Price :
+                <B> <font color="red"> Rs.{{cartTotal.totalPrice}}</font> </B>
+                <BR>
+                <BR>
+                <input type="button" (click)="placeOrder()" [disabled]="cartTotal.totalQuantity<1"  value="Place Order" class="btn btn-primary btn-block btn-lg">
+
+            </div>
+        </div>
+    </div>
+</div>

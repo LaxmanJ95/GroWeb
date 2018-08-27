@@ -1,0 +1,68 @@
+<div id="viewcart" class="row">
+    <div id="view-cart" class="col-xs-9">
+        <div>
+            <div class="panel panel-primary ">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Shopping Cart</h3>
+                </div>
+                <div class="panel-body">
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Product </th>
+                                <th>Description </th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total price</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let cartItem of cartItems; let i = index; trackBy: trackByFn">
+                                <td> <img src="{{cartItem.img}}"> </td>
+                                <td> <a (click)="viewItem(cartItem.itemId)"> {{cartItem.description}} </a></td>
+                                <td>Rs.{{cartItem.price}}</td>
+                                <td> <input type="text" [(ngModel)]="cartItem.quantity" maxlength="3" (change)="calculateTotalPrice()">                                    </td>
+                                <td>Rs.{{cartItem.price * cartItem.quantity}}</td>
+
+                            </tr>
+                            <tr>
+                                <td> &nbsp;</td>
+                                <td> Total</td>
+                                <td> &nbsp;</td>
+                                <td> {{cart.totalQuantity}}</td>
+                                <td> {{cart.totalPrice}}</td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                    <!--div class="row" >
+                        <div class="col-xs-3 col-sm-3 col-md-3 pull-right ">
+                         <input type="button"  value="Confirm Order" class="btn btn-primary btn-block btn-lg">
+                         <div>
+                    </div-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="cartsummary" class="col-xs-3">
+        <div class="panel panel-primary ">
+            <div class="panel-heading">
+                <h3 class="panel-title">Cart Summary</h3>
+            </div>
+            <div class="panel-body">
+                Total Items : {{cart.totalQuantity}}
+                <BR> Total Price :
+                <B> <font color="red"> Rs.{{cart.totalPrice}}</font> </B>
+                <BR>
+                <BR>
+                <input type="button" (click)="checkout()" value="Checkout" class="btn btn-primary btn-block btn-lg">
+
+            </div>
+        </div>
+    </div>
+</div>

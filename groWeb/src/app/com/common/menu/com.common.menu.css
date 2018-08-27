@@ -1,0 +1,6 @@
+.navbar{
+    min-height: 45px;
+}
+.navbar-inverse .navbar-nav > li > a {
+    color:  white;
+}

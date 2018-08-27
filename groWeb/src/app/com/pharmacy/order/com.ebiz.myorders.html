@@ -1,0 +1,105 @@
+<div>
+    <div>
+        <div class="panel panel-primary ">
+            <div class="panel-heading">
+                <h3 class="panel-title"> My Orders</h3>
+            </div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-2 pull-right">
+                        <input type="button" value="Print" (click)="print()" 
+                       class="btn btn-primary btn-block btn-md">
+                    </div>
+                </div>
+                <div class="row">
+                    <div> &nbsp;</div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-xs-12">
+                        <div class="panel panel-default ">
+                            <div class="panel-heading" >
+                                My Orders
+                            </div>
+                            <div class="panel-body">
+                                <div id="table">
+
+
+                                    <div class="row col-md-10 hidden-xs">
+                                        <div class="col-md-2">Order</div>
+                                        <div class="col-md-3">Order Date </div>
+                                        <div class="col-md-2">Total Items</div>
+                                        <div class="col-md-2">Total Price</div>
+                                        <!-- <div class="col-md-2">Payment</div> -->
+                                        <div class="col-md-2">Status</div>
+                                    </div>
+                                    <div class="row col-md-12 hidden-xs">
+                                        <HR>
+                                    </div>
+
+                                    <div *ngFor="let order of orders; let i = index; ">
+                                            <div *ngIf="i <10">
+                                        <div class="row col-md-10">
+                                            <div class="col-md-2">
+                                                 <span class="visible-xs"> Order#:  <A (click)="viewMyOrder(order.id)" style="cursor: pointer;"> {{order.id}} </A>  </span>
+                                                 <span class="hidden-xs"> <A (click)="viewMyOrder(order.id)"> {{order.id}} </A>  </span>
+                                            </div>    
+                                            <div class="col-md-3">
+                                                 <span class="visible-xs"> Order Date: <B>{{order.orderDate}} </B></span>
+                                                 <span class="hidden-xs">  {{order.orderDate}} </span>
+                                            </div>
+                                            <div class="col-md-2">
+                                                 <span class="visible-xs"> Total Quantity: <B>{{order.totalQuantity}} </B></span>
+                                                 <span class="hidden-xs"> {{order.totalQuantity}} </span>
+                                            </div>
+                                            <div class="col-md-2">
+                                                 <span class="visible-xs"> Total Price: <B>${{order.totalPrice}} </B></span>
+                                                 <span class="hidden-xs">  ${{order.totalPrice}} </span>
+                                            </div>
+                                            <!-- <div class="col-md-2">
+                                                 <span class="visible-xs"> Balance: <B>${{ order.balance}} </B></span>
+                                                 <span class="hidden-xs">  ${{order.balance}} </span>
+                                            </div> -->
+                                            <div class="col-md-2">
+                                                 <span class="visible-xs"> Order Status: <span *ngIf="order.status == 'Cancelled'"><b style="color:red"> {{order.status}}</b></span>
+                                                 <span *ngIf="order.status != 'Cancelled'"> {{order.status}}</span></span>
+                                                 <span class="hidden-xs"><span *ngIf="order.status == 'Cancelled'"><b style="color:red"> {{order.status}}</b></span>
+                                                 <span *ngIf="order.status != 'Cancelled'"> {{order.status}}</span>  </span>
+                                            </div>
+                                            <div class="col-md-2"></div>
+                                            <div class="col-md-2"> </div>
+                                            <div class="col-md-2"> </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <HR>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div align="center">
+                        <div>
+                            <div class="col-md-12 col-sm-12 col-xs-12" style="padding-right:0px;padding-left: 0px;">
+                                <span (click)="start()">    <i class="fa fa-backward" aria-hidden="true"></i></span>
+                                 <span (click)="previous()">   <i class="fa fa-caret-left" aria-hidden="true"></i></span>
+                                  <span class="count"> <input type="text" class="form-control pagination-input" style=" width:50px;  display: inline-block;"  [(ngModel)]="currentPage" (keyup.enter)=pagesearch($event.target.value)/> of {{lastPage}}</span>
+                                 
+                                  <span (click)="next()"> <i class="fa fa-caret-right" aria-hidden="true"></i></span>
+                                   <span (click)="end()"><i class="fa fa-forward" aria-hidden="true"></i></span>
+                               </div>
+                        </div>
+           
+           </div>
+            </div>
+            
+        </div>
+    </div>

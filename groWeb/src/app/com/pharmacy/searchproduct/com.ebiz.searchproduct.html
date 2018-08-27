@@ -1,0 +1,205 @@
+
+<header *ngIf="userId == 0"  class="header-style"></header>
+<div id="menu" class="hidden-xs">
+    <nav class="navbar navbar-inverse" style="">
+      <div class="container-fluid">
+        <div class="navbar-header" style="height:0px;"> <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-9"
+            aria-expanded="false"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>        
+            <a href="#" class="navbar-brand"><font color="white">  </font></a> </div>
+        <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-9" aria-expanded="false" style="height: 1px;">
+          <ul class="nav navbar-nav">
+           
+            <li *ngFor="let x of categories"  class="menu-item dropdown dropdown-submenu drop-submenu" >
+              <a class="dropdown-toggle"  data-toggle="dropdown" (click)="category(x.productClass)">{{x.productClass}}</a>
+            <ul class="dropdown-menu drop-menu">
+              <li *ngFor="let y of subCategories" ><a *ngIf="x.productClass == y.productClass"  (click)="subCategory(y.subClass)">{{y.subClass}}</a></li>
+            </ul>
+            </li>
+           
+          </ul>
+        </div>
+      </div>
+    </nav>
+  
+  </div>
+<div id="searchdrugs" class="row">
+    <div id="search" class="col-xs-12 col-md-12">
+        <div class="panel panel-primary ">
+                <div class="panel-heading">
+                        <h3 class="panel-title">Search Product</h3>
+                    </div>
+
+            <div class="panel-body">
+
+                <div id="searh-container" class="row" style="    margin-bottom:15px;
+                margin-top: 15px;">
+                    <div class="col-xs-12 col-md-8 ">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-8">
+                                <form>
+                                <div class = "input-group">
+                                        <span class = "input-group-addon">
+                                                <ul class="ul-list">
+                                                        <li class="menu-item dropdown">
+                                                            <a  class="dropdown-toggle" data-toggle="dropdown">{{categoryOnSelect}}<b class="caret"></b></a>
+                                                            <ul class="dropdown-menu">
+                                                                <li><a (click)="all()">ALL CATEGORIES</a></li>
+                                                                <li class="divider"></li>
+                                                                <li *ngFor="let x of categories" class="menu-item dropdown dropdown-submenu">
+                                                                    <a class="dropdown-toggle" (click)="category(x.productClass)" data-toggle="dropdown">{{x.productClass}}</a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li  *ngFor="let y of subCategories"class="menu-item ">
+                                                                            <a *ngIf="x.productClass == y.productClass"  (click)="subCategory(y.subClass)">{{y.subClass}}</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                        </span>
+                                        
+                                        <input id="searchBox" class="search-box" #searchBox type="text"  (change)="search()"   placeholder="Search for...">
+                                        <span class="input-group-btn">
+                                                <button class="close-icon" (click)="all()"type="reset"></button></span>
+                                       
+                                    </div>   </form>                                        
+                                         
+     
+                        </div>
+                      
+                     <BR>
+                    </div>
+                    <div *ngIf="userId != 0 && roleId < 3" class="col-md-2 col-xs-12">
+                        <button type="submit" class="btn btn-success" (click)="showAddProductForm()" >Add New</button>
+                    </div>
+                </div>
+                <div class="row"> &nbsp;</div>
+                    <div class="row">
+                        <div *ngFor="let product of products; let i = index; " >
+                            <div *ngIf="i<18">
+                            <div class="col-md-2 col-sm-3 col-xs-6 product-col">
+                            <div class="product-layout" [ngStyle]="getBackground(product.active)">
+                                <span *ngIf=" roleId<3" class="check-box pull-left">
+                                        <span  > <i  class="fa fa-pencil-square-o fa-2x" style="color: #727448;" (click)="editProduct(product.id)" aria-hidden="true"></i>    </span>
+                                    
+                                </span>
+                                <span class="check-box pull-right">
+                                    <span *ngIf="product.isWished"><i  class="fa fa-heart" style="color: red;" (click)="add2wish(i)" aria-hidden="true"></i></span>
+                                    <span *ngIf="!product.isWished" style="cursor:pointer"><i  class="fa fa-heart" style="" (click)="add2wish(i)" aria-hidden="true"></i></span>
+                                </span>
+                             
+                                <div class="product-layout-inside">
+                                    <div class="image-layout">
+                                            <a (click)="viewItem(product.id)"> <img class="img-responsive" src="{{product.imageFile}}"></a>
+                                    </div>
+                                    <div class="category">
+                                            <h6 class="product-category">{{product.productClass}}</h6>
+                                        </div>
+                                    <div class="content"  [ngStyle]="getBackground(product.active)">
+                                    <div class="desc-layout">
+                                            <a (click)="viewItem(product.id)"> 
+                                                    <span *ngIf="product.inInventory==1" > {{product.name}}  </span>
+                                                    <span *ngIf="product.inInventory==0" > <font color="red" > {{product.name}}  </font></span>
+                                            </a>
+                                    </div>
+                                    <div class="product-price">
+                                      <a class="price"> <span><b>Price: $ <font class="font-color">{{product.costPrice}}</font></b></span></a>
+                                    </div>
+                                    
+                                    <div class="qry-cart">
+                                        <div class="row">
+                                        <div class="col-md-6 col-xs-6 cart-row" style="text-align:center">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Qty</span>
+                                                <input type="text"  OnlyNumber="true" maxlength="2"  class="form-control form-quantity" [(ngModel)]="product.quantity" 
+                                                style="padding:2px;" >
+                                                <datalist id="title">
+                                                    <option *ngFor="let x of cities" [value]="x.city">{{x.city}}</option>
+                                                  </datalist>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-3 col-xs-3 " style="text-align:center">
+                                            <div class="add-cart">
+                                                                        
+                                                <i *ngIf="product.inCart" class="fa fa-check fa-2x" style="color: #18e718;cursor:context-menu;"   aria-hidden="true"></i>    
+                                                <i *ngIf="!product.inCart" class="fa fa-shopping-cart fa-2x"  style="color:#6699d9;" (click)="addItem2Cart(i)" aria-hidden="true"></i>
+                                                
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        <!-- <div *ngFor="let product of products; let i = index; " >
+                            <div *ngIf="i<18">
+                                <div class="col-md-2">
+                        <div class="product-container" style="    border: 1px solid black;
+                        width: 200px;height:318px">
+                            <div class="product-image" style="text-align: center;
+                            margin-top: 10px;
+                            margin-bottom: 10px;">
+                                <img src="app/img/diet_idly.jpg" class="img-res" style="    width: 50%;"/>
+                            </div>
+                            <div class="category">
+                                <h6>Category</h6>
+                            </div>
+                            <div class="product-name" style="    height: 50px;">
+                                <a>Aachi Idly Mix</a>
+                            </div>
+                            <div class="amount">
+                                <h4>$20</h4>
+                            </div>
+                            <div class="quantity">
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Qty</span>
+                                        <input type="text" class="form-control form-quantity" 
+                                        style="padding:2px;" >
+                                    </div>
+                                </div>
+                                <div class="col-md-6" style="text-align:center">
+                                    <i  class="fa fa-shopping-cart fa-2x"  style="color:#6699d9;"  aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                        </div></div></div> -->
+                    </div>
+                    <div align="center">
+                            <div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 pagination">
+                                    <span (click)="start()">    <i class="fa fa-backward" aria-hidden="true"></i></span>
+                                     <span (click)="previous()">   <i class="fa fa-caret-left" aria-hidden="true"></i></span>
+                                      <span class="count"> <input type="text" class="form-control pagination-input"  [(ngModel)]="currentPage" (keyup.enter)=pagesearch($event.target.value)/> of {{lastPage}}</span>
+                                     
+                                      <span (click)="next()"> <i class="fa fa-caret-right" aria-hidden="true"></i></span>
+                                       <span (click)="end()"><i class="fa fa-forward" aria-hidden="true"></i></span>
+                                   </div>
+                            </div>
+                    </div>
+      
+            </div>
+        </div>
+    </div>
+    <modal #profileAddress id="profileAddress"
+    [show-modal]="isModalLogin"
+    [title]="'Login Required.'"
+    >
+    <div class="popup-content" style="margin-top:10px;margin-bottom:10px;">
+     <span>Please Login To Proceed</span>
+    </div>
+    <div class="popup-footer" style="height:20px;">
+        <div class="col-md-3 col-sm-3 col-xs-6">
+         <button class="btn cancel"  aria-label="Close" (click)="cancelModalLogin()">Cancel</button>
+        </div>
+        <div class="col-md-3 col-sm-3 col-xs-6">
+            <button type="button" class="btn btn-primary" (click)="moveToLogin()" aria-label="Close">OK</button>
+        </div>
+    </div>
+    </modal>
+    
+</div>
+<footer *ngIf="userId == 0" ></footer>

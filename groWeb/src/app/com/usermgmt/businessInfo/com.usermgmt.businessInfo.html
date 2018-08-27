@@ -1,0 +1,42 @@
+<header></header>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">Contact Info</div>
+    <div class="panel-body">
+        <div class="col-md-6">
+            <div class="contact-address col-md-3 col-sm-3 ">
+                    <img class="img-responsive" src="app/img/chiliy.png"  />
+            </div>
+            <div class="col-md-6 col-sm-6">
+               <div class="row">
+                <b>{{businessInfo.name}}</b><br>
+                {{businessInfo.street}},
+                {{businessInfo.city}},<br>
+                {{businessInfo.state}}-{{businessInfo.zipCode}}.
+                <br>
+                </div>
+                <div class="row"> &nbsp;</div>
+                <div class="row"> &nbsp;</div>
+                <div class="row">
+                    <b>Telephone:</b> {{businessInfo.phoneNumber}}<br>
+                    <b>Email:</b> {{businessInfo.email}}
+                </div>
+            </div>
+           
+        </div>
+        <div class="col-md-6">
+                <sebm-google-map
+                [latitude]="lat"
+                [longitude]="lng">
+             <sebm-google-map-marker
+                [latitude]="lat"
+                [longitude]="lng">
+              </sebm-google-map-marker>
+           </sebm-google-map>
+        </div>
+    </div>
+</div>
+
+
+<footer></footer>

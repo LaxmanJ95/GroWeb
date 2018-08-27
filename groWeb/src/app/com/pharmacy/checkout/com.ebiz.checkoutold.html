@@ -1,0 +1,435 @@
+<div id="checkoutcart" class="row">
+        <div id="checkout-cart" class="col-xs-12 col-md-9">
+            <div>
+                <div class="panel panel-primary ">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Checkout Options</h3>
+                    </div>
+                    <div class="panel-body">
+                       
+                           
+    
+                        <div class="panel panel-default ">
+                            <div class="panel panel-heading">Delivery Method</div>
+                            <div class="panel-body">
+                                <div class="row">
+                                   <div class="col-md-5">
+                                        <input type="radio" id="1" name="_organicFarmer" value=1 (click)='onRadioChange(1)'> Self Pickup <br>
+                                    
+                                        <input type="radio" id="2" name="_organicFarmer" value=2 (click)='onRadioChange(2)'> Delivery
+                                   </div>
+    
+                                </div>     
+                                <div *ngIf="openDeliveryAddress" class="row delivery-address address-full">
+                                        <div class="col-md-9">
+                                                <div>
+                                                       <span class="span-address"><b>{{address.name}}</b>, 
+                                                            {{address.street}},{{address.city}},{{address.state}}-{{address.zipCode}}
+                                                        </span>
+                                                </div>
+                                           
+                                        </div>
+                                        <div class="edit-button col-md-2">
+                                                <div><a class="" data-toggle="collapse" (click)="openAddress(address.id,openDeliveryAddress)" >
+                                                    <button class="btn btn-primary edit-btn">EDIT</button>
+                                                </a></div>
+                                        </div>
+                                    </div>
+                               <!-- <div class="address-row">
+                                <div *ngIf="!newAddress" class="row address-full">
+                                    <div class="delivery-address col-md-9">
+                                            <div>
+                                                   <span class="span-address"><b>{{address.name}}</b>, 
+                                                        {{address.street}},{{address.city}},{{address.state}},{{address.zipCode}}
+                                                    </span>
+                                            </div>
+                                       
+                                    </div>
+                                    <div class="edit-button col-md-2">
+                                            <div><a class="" data-toggle="collapse" (click)="openAddress(address.id,newAddress)" >
+                                                <button class="btn btn-primary edit-btn">EDIT</button>
+                                            </a></div>
+                                    </div>
+                                </div>
+                              
+                                </div> -->
+                               
+                                <!-- <div class="row" >
+                                        <button class="btn btn-default new-address-btn"  (click)="openNewAddress(newAddress)">Add New Address</button>
+                                    </div> -->
+                                <div *ngIf="newAddress" class="delivery-address" >
+                                        
+                                                                        <div class="panel panel-default ">
+                                        
+                                                                            <div class="panel-body">
+                                                                                    <form #f="ngForm" [formGroup]="addressForm"  action="" method="POST" id="payment-form" >
+                                                                                <div class="control-group col-md-4 col-xs-12">
+                                                                                    <label for="name" class="control-label">Name:</label>
+                                                                                    <div class="controls">
+                                                                                        <input name="name" [(ngModel)]="address.name" placeholder="" 
+                                                                                        formControlName="_name" type="text" value="" id="name" class="form-control" required>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="control-group col-md-4 col-xs-12">
+                                                                                    <label for="street" class="control-label">Street:</label>
+                                                                                    <div class="controls">
+                                                                                        <input name="street" [(ngModel)]="address.street" placeholder="" 
+                                                                                        formControlName="_street" type="text" value="" id="street" class="form-control" required>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="control-group col-md-4 col-xs-12">
+                                                                                    <label for="street2" class="control-label">Street2:</label>
+                                                                                    <div class="controls">
+                                                                                        <input name="street2" [(ngModel)]="address.street2" placeholder="" 
+                                                                                        formControlName="_street2" type="text" value="" id="street2"
+                                                                                            class="form-control">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="control-group col-md-4 col-xs-12">
+                                                                                    <label for="state" class="control-label">State:</label>
+                                                                                    <div class="controls">
+                                                                                       
+                                                                                        <select placeholder=".col-xs-2" class="form-control" [(ngModel)]="address.state"
+                                                                                        formControlName="_state" (change)="getCities(i,$event.target.value)" required>
+                                                                                            <option *ngFor="let x of states" [value]="x.state" [selected]="address.state == x.state">{{x.state}}</option>
+                                                                                        </select>    
+                                        
+                                        
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="control-group col-md-4 col-xs-12">
+                                                                                    <label for="city" class="control-label">City:</label>
+                                                                                    <div class="controls">
+                                                                                            <input list="title"type="text" name="city" style="padding:4px 12px;"
+                                                                                            [(ngModel)]="address.city" formControlName="_city"
+                                                                                             class="form-control" required/>
+                                                                                                <datalist id="title">
+                                                                          <option *ngFor="let x of cities" [value]="x.city">{{x.city}}</option>
+                                                                        </datalist>
+                                                                                            <!-- <select placeholder=".col-xs-2" class="form-control" [(ngModel)]="address.city" formControlName="_city" required>
+                                                                                            <option *ngFor="let x of cities" [value]="x.city" [selected]="address.city == x.city">{{x.city}}</option>
+                                                                                        </select>     -->
+                                                                                    </div>
+                                                                                </div>
+                                                                                
+                                                                                <div class="control-group col-md-4 col-xs-12">
+                                                                                    <label for="zipcode" class="control-label">Zipcode:</label>
+                                                                                    <div class="controls">
+                                                                                        <input name="zipcode" [(ngModel)]="address.zipcode" placeholder="60040" 
+                                                                                        formControlName="_zipCode"type="text" value="" id="zipcode" class="form-control" required>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="control-group col-md-4 col-xs-12 pull-left">
+                                                                                        <label for="country" class="control-label">&nbsp;</label>
+                                                                                        <div class="controls"> <button type="button" (click)="copyProfileAddress()"  class="btn btn-large btn-primary">Copy Profile Address</button></div>
+                                                                                    </div>
+    
+                                                                                <div class="control-group col-md-4 col-xs-12 pull-right">
+                                                                                    <label for="country" class="control-label">&nbsp;</label>
+                                                                                    <div class="controls"> <button type="button" (click)="addNewAddress()" [disabled]="!f.valid" class="btn btn-large btn-primary">Save Address</button></div>
+                                                                                </div>
+                                                                            </form>
+                                                                            </div>
+                                        
+                                                                        </div>
+                                                                    </div>
+    
+                                    
+                            </div>
+                       </div>
+    
+                        <div class="panel panel-default ">
+                            <div class="panel-heading">
+                                Payment Method
+                            </div>
+                            <div class="panel-body">
+    
+                                <input type="radio" [(ngModel)]="payMethod" (change)="onCredit(1)" value="Pay by Cash" /> Pay by Cash <BR>
+                                <input type="radio" [(ngModel)]="payMethod" (change)="onCredit(2)" value="Pay by Check" /> Pay by Check
+                                <BR>
+                                <input type="radio" [(ngModel)]="payMethod" (change)="onCredit(3)" value="Pay by Card" /> Pay by Card
+    
+    
+                                <div *ngIf="isCreditOpen" class="payment-row">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-6 payment-col">
+                                            <div class="payment-form">
+                                                    <form #f="ngForm" [formGroup]="paymentForm"  action="" method="POST" id="payment-form" >
+                                                        <!-- <input id="cc-number" formControlName="creditCard" type="tel" autocomplete="cc-number" ccNumber>
+                                                        <input id="cc-exp-date" formControlName="expirationDate" type="tel" autocomplete="cc-exp" ccExp>
+                                                        <input id="cc-cvc" formControlName="cvc" type="tel" autocomplete="off" ccCvc>
+                                                    -->
+                                                        <div class="form-row">
+                                                            <div class="row">
+                                                                    <label> <span>Card Number</span></label>
+                                                            </div>
+                                                            <div class="row">
+                                                                    <input [textMask]="{mask: cardNo_mask}" type="text" name="cardNum"  id="cc-number" class="form-control pay-col"  [(ngModel)]="creditCard" placeholder="XXXXXXXXXXXXXXXX"
+                                                                     formControlName="creditCard"   required>
+                                                                    <!-- <div *ngIf="paymentForm.controls.creditCard.touched && paymentForm.controls.creditCard.errors">
+                                                                        <div class="alert alert-danger fa fa-exclamation-triangle" *ngIf="paymentForm.controls.creditCard.errors.pattern"> Please enter the 16 digit Card Number </div>
+                                                                    </div> -->
+                                                            </div>
+                                                        </div>
+                                                    
+                                                        <div class="form-row">
+                                                                <div class="row">
+                                                                    <label><span>Expiration (MM/YY)</span> </label>
+                                                                </div>
+                                                                <div class="row">
+                                                                        <input type="text" [textMask]="{mask: date_mask}" id="cc-exp-date"  class="form-control  pay-col"  [(ngModel)]="expirationDate" placeholder="MM/YY"
+                                                                        formControlName="expirationDate"  required>
+                                                                        <!-- <div *ngIf="paymentForm.controls.expirationDate.touched && paymentForm.controls.expirationDate.errors">
+                                                                                <div class="alert alert-danger fa fa-exclamation-triangle" *ngIf="paymentForm.controls.expirationDate.errors.pattern"> Please enter the MM/YY Expiry Date</div>
+                                                                        </div> -->
+                                                                </div>
+                                                        </div>
+                                                    
+                                                        <div class="form-row">
+                                                            <div class="row">
+                                                                    <label>
+                                                                            <span>CVC</span></label>
+                                                            </div>
+                                                            <div class="row">
+                                                                <input type="text"  [textMask]="{mask: cvv_mask}" class="form-control  pay-col"  [(ngModel)]="cvcNo" formControlName="cvc" placeholder="XXX"
+                                                                required>
+                                                                <!-- <div *ngIf="paymentForm.controls.cvc.touched && paymentForm.controls.cvc.errors">
+                                                                        <div class="alert alert-danger fa fa-exclamation-triangle" *ngIf="paymentForm.controls.cvc.errors.pattern"> Please enter the CVC Number </div>
+                                                                </div> -->
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <!-- <input type="submit" class="payment-submit form-control" value="Pay ${{cartTotal.totalPrice}}" (click)="payForOrder()"> -->
+                                                    </form>
+                                              </div>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                    </div>
+                                
+    
+                              
+                            </div>
+                        </div>
+                        <div *ngIf="payMethod == 'Pay by Card'"class="row">
+                                <div *ngIf="openDeliveryAddress" class="row address-full">
+                                        <div class="delivery-address col-md-9">
+                                                <div>
+                                                       <span class="span-address"><b>{{billingAddress.name}}</b>, 
+                                                            {{billingAddress.street}},{{billingAddress.city}},{{billingAddress.state}}-{{billingAddress.zipCode}}
+                                                        </span>
+                                                </div>
+                                           
+                                        </div>
+                                        <div class="edit-button col-md-2">
+                                                <div><a class="" data-toggle="collapse" (click)="openAddress(address.id,openDeliveryAddress)" >
+                                                    <button class="btn btn-primary edit-btn">EDIT</button>
+                                                </a></div>
+                                        </div>
+                                    </div>
+                                <div *ngIf="openBillingAddress">
+                                        
+                                                                        <div class="panel panel-default ">
+                                        
+                                                                            <div class="panel-body">
+                                                                                    <form #f="ngForm" [formGroup]="addressForm"  action="" method="POST" id="payment-form" >
+                                                                                <div class="control-group col-md-4 col-xs-12">
+                                                                                    <label for="name" class="control-label">Name:</label>
+                                                                                    <div class="controls">
+                                                                                        <input name="name" [(ngModel)]="billingAddress.name" placeholder="" 
+                                                                                        formControlName="_name" type="text" value="" id="name" class="form-control" required>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="control-group col-md-4 col-xs-12">
+                                                                                    <label for="street" class="control-label">Street:</label>
+                                                                                    <div class="controls">
+                                                                                        <input name="street" [(ngModel)]="billingAddress.street" placeholder="" 
+                                                                                        formControlName="_street" type="text" value="" id="street" class="form-control" required>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="control-group col-md-4 col-xs-12">
+                                                                                    <label for="street2" class="control-label">Street2:</label>
+                                                                                    <div class="controls">
+                                                                                        <input name="street2" [(ngModel)]="billingAddress.street2" placeholder="" 
+                                                                                        formControlName="_street2" type="text" value="" id="street2"
+                                                                                            class="form-control">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="control-group col-md-4 col-xs-12">
+                                                                                    <label for="state" class="control-label">State:</label>
+                                                                                    <div class="controls">
+                                                                                       
+                                                                                        <select placeholder=".col-xs-2" class="form-control" [(ngModel)]="billingAddress.state"
+                                                                                        formControlName="_state" (change)="getCities(i,$event.target.value)" required>
+                                                                                            <option *ngFor="let x of states" [value]="x.state" [selected]="billingAddress.state == x.state">{{x.state}}</option>
+                                                                                        </select>    
+                                        
+                                        
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="control-group col-md-4 col-xs-12">
+                                                                                    <label for="city" class="control-label">City:</label>
+                                                                                    <div class="controls">
+                                                                                            <input list="title"type="text" name="city" style="padding:4px 12px;"
+                                                                                            [(ngModel)]="billingAddress.city" formControlName="_city"
+                                                                                             class="form-control" required/>
+                                                                                                <datalist id="title">
+                                                                          <option *ngFor="let x of cities" [value]="x.city">{{x.city}}</option>
+                                                                        </datalist>
+                                                                                            <!-- <select placeholder=".col-xs-2" class="form-control" [(ngModel)]="address.city" formControlName="_city" required>
+                                                                                            <option *ngFor="let x of cities" [value]="x.city" [selected]="address.city == x.city">{{x.city}}</option>
+                                                                                        </select>     -->
+                                                                                    </div>
+                                                                                </div>
+                                                                                
+                                                                                <div class="control-group col-md-4 col-xs-12">
+                                                                                    <label for="zipcode" class="control-label">Zipcode:</label>
+                                                                                    <div class="controls">
+                                                                                        <input name="zipcode" [(ngModel)]="billingAddress.zipcode" placeholder="60040" 
+                                                                                        formControlName="_zipCode"type="text" value="" id="zipcode" class="form-control" required>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="control-group col-md-4 col-xs-12 pull-left">
+                                                                                        <label for="country" class="control-label">&nbsp;</label>
+                                                                                        <div class="controls"> <button type="button" (click)="copyProflieToBillingAddress()"  class="btn btn-large btn-primary">Copy Profile Address</button></div>
+                                                                                    </div>
+    
+                                                                                <div class="control-group col-md-4 col-xs-12 pull-right">
+                                                                                    <label for="country" class="control-label">&nbsp;</label>
+                                                                                    <div class="controls"> <button type="button" (click)="addBillingAddress()" [disabled]="!f.valid" class="btn btn-large btn-primary">Save Address</button></div>
+                                                                                </div>
+                                                                            </form>
+                                                                            </div>
+                                        
+                                                                        </div>
+                                                                    </div>
+                               
+                            </div>
+                        <div class="panel panel-default ">
+                            <div class="panel-heading">
+                                Notification Preference
+                            </div>
+                            <div class="panel-body">
+                                Email: <input type="checkbox" checked value="email" /> {{email}}
+                                <BR> Phone: <input type="checkbox" checked value="phone" /> {{primaryPhone}}
+                            </div>
+                        </div>
+    
+                        <!--div class="pull-right col-xs-12 col-md-4">
+                            <input type="button" (click)="placeOrder()" value="Place Order" class="btn btn-primary btn-block btn-lg">
+                        </div-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="cartsummary" class="col-xs-12 col-md-3">
+            <div class="panel panel-primary ">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Order Summary</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-8 col-sm-8 col-xs-8"><label class="label">Total Items:</label></div>
+                        <div class="col-md-4 col-sm-4 col-xs-4"><B>{{cartTotal.totalQuantity}}</B></div>
+                    </div>
+                    <div *ngIf="newAddress" class="row">
+                        <div class="col-md-8 col-sm-8 col-xs-8"><label class="label">Total Price:</label></div>
+                        <div class="col-md-4 col-sm-4 col-xs-4"><B> ${{cartTotal.totalPrice | number : '1.2-2'}}</B></div>
+                    </div>
+                    <div *ngIf="!newAddress">
+                    <div  class="row">
+                            <div class="col-md-8 col-sm-8 col-xs-8"><label  class="label">Total before tax:</label></div>
+                            <div class="col-md-4 col-sm-4 col-xs-4"><B>${{orderCalculation.price | number : '1.2-2'}}</B></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 col-sm-8 col-xs-8"><label  class="label"><span>Shipping & handling</span> </label></div>
+                        <div class="col-md-4 col-sm-4 col-xs-4"><B>${{orderCalculation.shippingRate | number : '1.2-2'}}</B></div>
+                    </div>       
+                    <div class="row">
+                                <div class="col-md-8 col-sm-8 col-xs-8"><label  class="label"><span>Estimated Tax:</span> </label></div>
+                                <div class="col-md-4 col-sm-4 col-xs-4"><B>${{orderCalculation.tax | number : '1.2-2'}}</B></div>
+                    </div>  
+                          
+    
+                    <BR> 
+                        <div class="row">
+                                <div class="col-md-8 col-sm-8 col-xs-8"><label class="label"> Total Price :</label></div>
+                                <div class="col-md-4 col-sm-4 col-xs-4"> <B> <font color="red"> ${{orderCalculation.totalPrice | number : '1.2-2'}}</font> </B></div>
+                    </div>   
+                    </div> 
+                    <BR>
+                    
+                    <div>
+                        <input type="button" (click)="placeOrder()"  data-toggle="modal" data-target="#order2cart-confirm"  
+                        [disabled]="cartTotal.totalQuantity<1"  value="Place Order" class="btn btn-success btn-block btn-lg">
+                    </div>
+                </div>
+                <div class="modal fade"   role="dialog"  >
+                        <div class="modal-dialog dialog-view">
+            
+            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header" style="padding:8px;">
+                                    <a href="#" data-dismiss="modal" aria-hidden="true" class="close" style="color:black; line-height:1em">×</a>
+                                    <h3>Payment</h3>
+                                </div>
+                            <div class="modal-body" style="background-color: #ffffff">
+                                <h4>Your Payment is Processing</h4>
+                            </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        
+        <modal #deleteUserModal id="deleteUser"
+        [show-modal]="isModalOpen"
+        [title]="'Your Payment Failed'"
+        >
+       <div class="popup-content">
+         <p>Payment Failed.Please check the details you have entered.</p>
+       </div>
+       <div class="popup-footer">
+         <!-- <button class="btn cancel"  aria-label="Close" (click)="deleteUserModal.hide()">
+             Cancel
+         </button> -->
+         <button type="button" class="btn btn-primary" (click)="deleteModal()" aria-label="Close">
+             Got it!
+         </button>
+        </div>
+      </modal>
+    
+      <modal #enterCardDetails id="enterCardDetails"
+      [show-modal]="isModalOpen2"
+      [title]="'Fill the Details'"
+      >
+     <div class="popup-content">
+       <p>Please Enter the Valid Card Details.</p>
+     </div>
+     <div class="popup-footer">
+       <!-- <button class="btn cancel"  aria-label="Close" (click)="deleteUserModal.hide()">
+           Cancel
+       </button> -->
+       <button type="button" class="btn btn-primary" (click)="deleteModal2()" aria-label="Close">
+           Got it!
+       </button>
+      </div>
+    </modal>
+    
+    <modal #placOrderProcessing id="enterCardDetails"
+    [show-modal]="isModalOpen3"
+    [title]="''"
+    >
+    <div class="popup-content">
+     <h3>Order is Processing...</h3><i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
+    </div>
+    <div class="popup-footer">
+     <!-- <button class="btn cancel"  aria-label="Close" (click)="deleteUserModal.hide()">
+         Cancel
+     </button> -->
+     <!-- <button type="button" class="btn btn-primary" (click)="deleteModal2()" aria-label="Close">
+         Got it!
+     </button> -->
+    </div>
+    </modal>
+    
+    </div>

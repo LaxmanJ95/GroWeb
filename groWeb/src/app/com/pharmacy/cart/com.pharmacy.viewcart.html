@@ -1,0 +1,161 @@
+<div id="viewcart" class="row">
+    <div id="view-cart" class="col-xs-12 col-md-9">
+            <div class="panel panel-primary " >
+                <div class="panel-heading">
+                    <h3 class="panel-title">Shopping Cart</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="table">
+                        <div class="row col-md-12 hidden-sm hidden-xs">
+                            <div class="col-md-2"><b>Product</b> </div>
+                            <div class="col-md-5"><b>Description</b> </div>
+                            <div class="col-md-1"><b>Price</b></div>
+                            <div class="col-md-2"><b>Quantity</b></div>
+                            <div class="col-md-2"><b>Total price</b></div>
+                        </div>   
+                        <div class="row col-md-12 hidden-sm hidden-xs"><HR></div>
+                       
+                        <div *ngFor="let cartItem of cartItems; let i = index; ">
+                          <div class="row col-md-12">
+                            <div class="col-md-2"> <img class="img-responsive" src="{{cartItem.productImageFile}}"> </div>
+                            <div class="col-md-5"> 
+                                <div *ngIf="cartItem.productId==1">
+                                    <a (click)="uploadPrescription(cartItem.id)"> <h4> {{cartItem.productName}} </h4></a> <BR>
+                                </div>
+                                <div *ngIf="cartItem.productId!=1">
+                                    <a (click)="viewItem(cartItem.productId)"> <h4> {{cartItem.productName}} </h4></a> <BR>
+                                </div>
+                                
+                                <div class="row"> <div class="col-md-6 col-sm-6"><a (click)="calculateTotalPrice(i,0)" style="font-size: 14px;"> 
+                                        <font color="red"> <i class="fa fa-times-circle" aria-hidden="true"></i> Delete </font>
+                                            </a></div>
+                                    <div  class="col-md-6 col-sm-6">
+                                    <a (click)=" saveForLater(cartItem.id)" style="font-size: 14px;"> 
+                                            <font color="blue"> <i class="fa fa-heart" aria-hidden="true"></i> Move to WishList </font>
+                                            </a></div>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <span class="visible-xs visible-sm"> Price: ${{cartItem.price}} </span>
+                                <span class="hidden-xs hidden-sm">   ${{cartItem.price}} </span>  
+                            </div>
+                            <div class="col-md-2"> 
+                                   <div *ngIf="cartItem.saved == 0 ">
+                                        <select class="form-control" [(ngModel)]="cartItem.quantity" (change)="calculateTotalPrice(i,$event.target.value)" >
+                                                <option value="1" >1</option>
+                                                <option value="2"> 2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10+</option>
+                                            </select>
+                                   </div>
+                                <div  *ngIf="cartItem.saved != 0"><input list="title"type="text" name="quantity" OnlyNumber="true" maxlength="2"
+                                    [(ngModel)]="cartItem.quantity" (change)="calculateTotalPrice(i,$event.target.value)"
+                                     class="form-control" required/>
+                                     </div>
+                                        <!-- <datalist id="title">
+                                                <option [value]="1" >1</option>
+                                                
+                </datalist> -->
+                                <!-- <span class="visible-xs  visible-sm"> 
+                                     
+                                    Quantity:  
+                                    <select placeholder=".col-xs-2" class="form-control" [(ngModel)]="cartItem.quantity" (change)="calculateTotalPrice(i,$event.target.value)" >
+                                    <option value="1" >1</option>
+                                    <option value="2"> 2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select> -->
+                                    
+                                    <!--input type="text" [(ngModel)]="cartItem.quantity" maxlength="3" (change)="calculateTotalPrice()"--> 
+                                <!-- </span> -->
+                                <!-- <span class="hidden-xs hidden-sm">   -->
+                                  
+                                    <!--input type="text" [(ngModel)]="cartItem.quantity" maxlength="3" (change)="calculateTotalPrice()"--> 
+                                    <!-- <select class="form-control" [(ngModel)]="cartItem.quantity" (change)="calculateTotalPrice(i,$event.target.value)" >
+                                    <option value="1" >1</option>
+                                    <option value="2"> 2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select> -->
+                                  
+                                <!-- </span>   -->
+                          
+                            </div>
+                            <div class="col-md-2">
+                                
+                                <span class="visible-xs visible-sm"><b> Total Price:</b>  ${{cartItem.price * cartItem.quantity}} </span>
+                                <span class="hidden-xs hidden-sm">   ${{cartItem.price * cartItem.quantity | number : '1.2-2'}}</span>  
+
+                            </div>
+                          </div> 
+                           <div class="row col-md-12"><HR></div>    
+                        </div>
+                        <div *ngIf="cartItems?.length != 0"class="row col-md-12 hidden-xs">
+                            <div class="col-md-2"> &nbsp;</div>
+                            <div class="col-md-5"> <b>Total</b></div>
+                            <div class="col-md-1"> &nbsp;</div>
+                            <div class="col-md-2"> {{cartTotal.totalQuantity}}</div>
+                            <div class="col-md-2"> $ {{cartTotal.totalPrice| number : '1.2-2'}}</div>
+                        </div> 
+                        <div *ngIf="cartItems?.length == 0" class="row col-md-12 hidden-xs">
+                            <p> No Items were found.</p></div>   
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="cartsummary" class="col-xs-12 col-md-3">
+        <div class="panel panel-primary ">
+            <div class="panel-heading">
+                <h3 class="panel-title">Cart Summary</h3>
+            </div>
+            <div class="panel-body">
+                Total Items : {{cartTotal.totalQuantity}}
+                <BR> Total Price :
+                <B> <font color="red"> ${{cartTotal.totalPrice | number : '1.2-2'}}</font> </B>
+                <BR>
+                <BR>
+                <input type="button"(click)="checkout()" value="Checkout" [disabled]="cartTotal.totalQuantity == 0"class="btn btn-success btn-block" >
+
+            </div>
+        </div>
+    </div>
+    <modal #profileAddress id="profileAddress"
+    [show-modal]="isModalAddress"
+    [title]="'Address Required.'"
+    >
+    <div class="popup-content" style="margin-top:10px;margin-bottom:10px;">
+     <span>Please provide Address to Proceed</span>
+    </div>
+    <div class="popup-footer"  style="height:20px;">
+        <div class="col-md-3 col-sm-3 col-xs-6">
+         <button class="btn cancel"  aria-label="Close" (click)="cancel()">
+             Cancel
+         </button>
+        </div>
+        <div class="col-md-3 col-sm-3 col-xs-6">
+            <button type="button" class="btn btn-success" (click)="moveToProfileAddress()" aria-label="Close">
+                OK
+            </button>
+            </div>
+    </div>
+    </modal>
+</div>

@@ -1,0 +1,183 @@
+<div id="addproduct">
+
+
+    <div class="panel panel-primary ">
+        <div class="panel-heading">
+            <h3 *ngIf="productId == 0" class="panel-title">New Product </h3>
+            <h3 *ngIf="productId != 0" class="panel-title">Product </h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-6">
+
+
+ 
+                            <div>
+
+                                <form #f1="ngForm" [formGroup]="productForm"  method="post" action="#">
+
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="form-group">
+                                                <label for="packing">Product Name*</label>
+                                                <input type="text" name="productName" [(ngModel)]="product.name" formControlName="_productName" id="productName" class="form-control"
+                                                    placeholder="Product Name" tabindex="1">
+                                            </div>
+                                            <div *ngIf="productForm.controls._productName.touched && productForm.controls._productName.errors">
+                                                <div class="alert alert-danger fa fa-exclamation-triangle" *ngIf="productForm.controls._productName.errors.required"> Please enter the valid Product Name </div>
+                                            </div>
+                                        </div>
+                                    
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="form-group">
+                                                <label for="productDescription">Product Description*</label>
+                                                <input type="text" name="productDescription" [(ngModel)]="product.description" formControlName="_productDescription" id="productDescription" class="form-control"
+                                                    placeholder="Product Description" tabindex="1">
+                                            </div>
+                                            <div *ngIf="productForm.controls._productDescription.touched && productForm.controls._productDescription.errors">
+                                                <div class="alert alert-danger fa fa-exclamation-triangle" *ngIf="productForm.controls._productDescription.errors.required"> Please enter the valid Product Description </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="form-group">
+                                                <label for="packing">Class</label>
+                                                <input type="text" name="productName" [(ngModel)]="product.productClass" formControlName="_productClass" id="productName" class="form-control"
+                                                    placeholder="Product Name" tabindex="1">
+                                            </div>
+                                            <div *ngIf="productForm.controls._productClass.touched && productForm.controls._productClass.errors">
+                                                <div class="alert alert-danger fa fa-exclamation-triangle" *ngIf="productForm.controls._productClass.errors.required"> Please enter the valid Product Name </div>
+                                            </div>
+                                        </div>
+                                    
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="form-group">
+                                                <label for="productDescription">Sub Class</label>
+                                                <input type="text" name="productDescription" [(ngModel)]="product.subClass" formControlName="_subClass" id="productDescription" class="form-control"
+                                                    placeholder="Product Description" tabindex="1">
+                                            </div>
+                                            <div *ngIf="productForm.controls._subClass.touched && productForm.controls._subClass.errors">
+                                                <div class="alert alert-danger fa fa-exclamation-triangle" *ngIf="productForm.controls._subClass.errors.required"> Please enter the valid Product Description </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                    
+                                    <div *ngIf="roleId<3" class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="form-group">
+                                                <label for="packing">Packing</label>
+                                                <input type="text" name="packing" [(ngModel)]="product.packing" formControlName="_packing" id="packing" class="form-control"
+                                                    placeholder="" tabindex="1">
+                                            </div>
+                                            <div *ngIf="productForm.controls._packing.touched && productForm.controls._packing.errors">
+                                                <div class="alert alert-danger fa fa-exclamation-triangle" *ngIf="productForm.controls._packing.errors.required"> Please enter the valid packing  </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="form-group">
+                                                <label for="packing">Product Expiry</label>
+                                                <input type="date" name="productExpiry" [(ngModel)]="product.productExpiry" formControlName="_productExpiry" id="packing" class="form-control"
+                                                    placeholder="" tabindex="1">
+                                            </div>
+                                            <div *ngIf="productForm.controls._productExpiry.touched && productForm.controls._productExpiry.errors">
+                                                <div class="alert alert-danger fa fa-exclamation-triangle" *ngIf="productForm.controls._productExpiry.errors.required"> Please enter the valid packing  </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-6" *ngIf="isProductImageAvailable">
+                                                <div class="scanFile">
+                                                        <div class="hover-btn">
+                                                            <button type="button"  (click)=deleteProductImage(product.id) class="close" data-dismiss="alert">
+                                                                <font color="red" ><i class="fa fa-window-close fa-2x" aria-hidden="true"></i></font>
+                                                                <span class="sr-only">Close</span>
+                                                            </button>
+                                                        </div>
+                                                        <img  src="{{product.imageFile}}" width="200" height="200" />
+                                                </div>
+                                            </div>
+                                            <div *ngIf="!isProductImageAvailable" class="col-md-3" ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)" (drop)="dragFileAccepted($event)"
+                                                [uploader]="uploader" class="well my-drop-zone">
+                                                Drop your Product Image here!<BR>
+                                                (Supports JPEG/GIF/PNG Image files- Max 2MB) 
+                                                <BR>
+                                                <BR> OR
+                                                <BR>
+                                                <BR> Click here to choose your file
+
+                                                <input type="file" (change)="dragFileAccepted($event)" ng2FileSelect [uploader]="uploader" />
+                                                <BR>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div *ngIf="roleId<3" class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="form-group">                                                  
+                                                  <input type="checkbox"  [checked]="product.active" (change)="changeCheckbox($event)"  /> Active
+                                                  <BR> (Please uncheck if you need to discontinue this product).
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div *ngIf="roleId<3">
+                                    <hr class="colorgraph">
+                                    <div  class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="form-group">
+                                                <label for="price">Price*</label>
+                                                <input type="text" name="price" [(ngModel)]="product.costPrice" formControlName="_price" id="price" class="form-control"
+                                                    placeholder="price" tabindex="1">
+                                            </div>
+                                            <div *ngIf="productForm.controls._price.touched && productForm.controls._price.errors">
+                                                <div class="alert alert-danger fa fa-exclamation-triangle" *ngIf="productForm.controls._price.errors.required"> Please enter the valid price  </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="form-group">
+                                                <label for="price">Special Price</label>
+                                                <input type="text" name="specialPrice" [(ngModel)]="product.specialPrice" formControlName="_specialPrice" id="price" class="form-control"
+                                                    placeholder="Special Price" tabindex="1">
+                                            </div>
+                                            <div *ngIf="productForm.controls._specialPrice.touched && productForm.controls._specialPrice.errors">
+                                                <div class="alert alert-danger fa fa-exclamation-triangle" *ngIf="productForm.controls._specialPrice.errors.required"> Please enter the valid  price  </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="form-group">                                                  
+                                                  <input type="checkbox"  [checked]="product.inInventory" (change)="changeInventoryCheckbox($event)"  /> Add this product to Inventory
+                                                  <BR> (check if this product needs to be added to inventory permanently.)
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    </div>
+
+                                   <hr class="colorgraph">
+                                    <div class="row">
+                                        <div *ngIf="productId == 0" class="col-xs-12 col-md-4 pull-right"><input type="button" (click)="saveProduct()"  value="Add" 
+                                                class="btn btn-primary btn-block " tabindex="7"></div>
+                                        <div *ngIf="productId != 0" class="col-xs-12 col-md-4 pull-right"><input type="button" (click)="saveProduct()"  value="Save" 
+                                                class="btn btn-primary btn-block " tabindex="7"></div>
+                                    </div>
+                                </form>
+                            </div>
+
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+
+</div>

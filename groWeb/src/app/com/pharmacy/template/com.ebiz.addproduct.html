@@ -1,0 +1,52 @@
+<div id="addproduct">
+
+
+    <div class="panel panel-primary ">
+        <div class="panel-heading">
+            <h3 class="panel-title">Add Product </h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-6">
+
+
+
+                            <div>
+
+                                <form #f1="ngForm" [formGroup]="productForm" (ngSubmit)="onSubmit(f1)" method="post" action="#">
+
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="form-group">
+                                                <label for="productName">First Name*</label>
+                                                <input type="text" name="productName" [(ngModel)]="product.name" formControlName="_productName" id="productName" class="form-control"
+                                                    placeholder="Product Name" tabindex="1">
+                                            </div>
+                                            <div *ngIf="productForm.controls._productName.touched && productForm.controls._productName.errors">
+                                                <div class="alert alert-danger fa fa-exclamation-triangle" *ngIf="productForm.controls._productName.errors.required"> Please enter the valid Product Name </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <hr class="colorgraph">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-4 pull-right"><input type="button" (click)="saveProfile()" [disabled]="!f1.valid" value="Save"
+                                                class="btn btn-primary btn-block " tabindex="7"></div>
+                                    </div>
+                                </form>
+                            </div>
+
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+
+</div>

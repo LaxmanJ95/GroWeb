@@ -1,0 +1,62 @@
+.img-col{
+    text-align: -webkit-center;
+}
+.img-responsive{
+    width:50%;
+}
+h3{
+    font-size: 19px;
+}
+@media (max-width:770px){
+    .img-col{
+        text-align: -webkit-center;
+    }
+    .img-responsive{
+        width: 50%;
+    }
+    h4{
+        font-size: 16px;
+    }
+    
+}
+.label{
+    color:black;
+    padding: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 2; 
+}
+.form-control{
+    height: 30px;
+}
+.col-md-4{
+    margin-left: 0px;
+}
+input[type="button"].btn-block{
+    width: 95%;
+}
+.add2cart{
+    width: 95%;
+    margin-top: 15px;
+}
+.add-cart{
+    margin-top:10px;
+    text-align: -webkit-center;
+}
+.btn-block{
+    font-weight: 600;
+}
+.heart-wished{
+    color:red;
+}
+.btn-default, .btn-default:hover, .btn-default:focus{
+    background-color: white;
+}
+.remove-wishlist{
+    text-align: right;
+    padding-right: 30px;
+}
+.fa-trash-o{
+    color: #f95555;
+    font-size: 25px;
+}

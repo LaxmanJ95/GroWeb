@@ -1,0 +1,58 @@
+import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import  {FormControl, Validators,FormGroup,FormBuilder}  from '@angular/forms'; 
+import {HashLocationStrategy, Location, LocationStrategy} from '@angular/common';
+import {Injector} from '@angular/core';
+import {ElementRef,ViewChild} from '@angular/core' /*Import View Child*/
+//----
+
+
+
+import {SessionDataService} from '../../common/service/com.common.sessiondata'
+import { UserMgmtService } from '../../usermgmt/service/com.service.usermgmt'
+
+import {BaseComponent} from '../../common/basic/com.common.basic.basecomponent';
+import {UserProfileService} from '../../usermgmt/service/com.service.userprofile';
+import {AlertService} from '../../common/service/alert/com.common.service.alertservice'
+import {Product} from '../model/com.ebiz.model.product'
+
+@Component({
+  moduleId: module.id,
+  selector: 'addproduct',
+  templateUrl: 'com.ebiz.addproduct.html',
+  providers: [SessionDataService,UserMgmtService,Location, {provide: LocationStrategy, useClass: HashLocationStrategy}],
+})
+export class AddProduct extends BaseComponent{
+
+
+   isFormValid :boolean= true;
+
+  productForm : FormGroup;
+
+ product: Product = new Product();
+
+ constructor(private _router: Router,
+            injector:Injector,
+            private _userProfileService: UserProfileService,
+    private _userMgmtService: UserMgmtService,
+    private fb: FormBuilder){
+      super(injector); 
+       // this.loadUserProfile();
+
+
+
+      this.productForm = this.fb.group({ 
+        _productName: ['',Validators.required]
+      });
+
+
+
+ }
+
+ 
+
+ }
+
+  
+

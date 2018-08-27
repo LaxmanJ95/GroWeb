@@ -1,0 +1,35 @@
+hr { 
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+}
+.form-control{
+    width: 50%;
+    padding: 5px;
+}
+.img-responsive{
+    max-width: 75%;
+}
+a{
+    cursor: pointer;
+}
+.panel-title{
+    font-weight: 600;
+}
+.panel-primary{
+    border-color: #5bba5e;
+}
+.panel-primary > .panel-heading {
+    color: #fff;
+    background-color: #5bba5e;
+    border-color: #5bba5e;
+}
+.btn-primary {
+    color: #ffffff;
+    background-color: #5bba5e;
+    border-color: #5bba5e;
+}

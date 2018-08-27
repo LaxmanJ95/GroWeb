@@ -1,0 +1,11 @@
+
+<div id="cart-count" style="float: right;">
+ <div >  
+<button [disabled]="totalQuantity<1" class="btn btn-primary btn-sm pull-right" style="background-color: #ffb226;
+border-color: #ffb226;
+color: black;" (click)="showCart()" type="button">
+   <i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i><span class="badge">{{totalQuantity}}</span>
+</button>
+</div>
+
+</div>

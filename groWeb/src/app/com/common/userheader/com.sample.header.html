@@ -1,0 +1,80 @@
+<div *ngIf="userName" class="row">
+    <div class="col-md-2  col-sm-2 hidden-xs">
+        <button class="btn btn-default btn-sm dropdown-toggle" style="    border: none;" type="button"  (click)="businessInfo()" aria-expanded="true"><i class="fa fa-phone fa-user-header"></i>Contact</button>
+    </div>
+        <div class="col-md-2 col-sm-2 hidden-xs">
+            <button class="btn btn-default btn-sm dropdown-toggle" style="    border: none;" (click)="products()" type="button"  aria-expanded="true"><i class="fa fa-user-header fa-search"></i>Products</button>
+        </div>
+        <div *ngIf="roleId > 2"  class="col-md-2  col-sm-2 hidden-xs">
+            <button class="btn btn-default btn-sm dropdown-toggle" style="    border: none;" (click)="myOrders()" type="button"  aria-expanded="true"><i class="fa fa-folder fa-user-header"></i>Orders</button>
+        </div>
+        <div class="col-md-2  col-sm-2 hidden-xs">
+            <button class="btn btn-default btn-sm dropdown-toggle" style="    border: none;" (click)="getWishList()" type="button"  aria-expanded="true">
+              <span *ngIf="isWishEmpty"><i class="fa fa-heart fa-user-header" style="color:red;margin-right:0px;"></i></span>
+              <span *ngIf="!isWishEmpty"><i class="fa fa-heart fa-user-header"></i></span>Wish List<span class="badge" style="    background-color: #f73030;
+              margin-left: 2px;">{{count}}</span></button>
+        </div>
+        <div *ngIf="roleId < 3" class="col-md-3  col-sm-4 col-xs-7 orders-menu">
+                <div class="dropdown ">
+                        <button class="btn btn-default btn-sm dropdown-toggle" style="    border: none;" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                             <font color="black;" style="font-weight: 600;
+                             color: black;
+                             font-size: 14px;"> <i class="fa fa-user fa-user-header" aria-hidden="true" ></i>Admin
+                            </font> <span class="caret"></span>
+                        
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                          <li><a (click)="myOrders()">
+                            <div><i class="fa fa-folder fa-user-header"></i>Customer Orders</div></a></li>
+                          <li role="separator" class="divider"></li>
+                          <li><a (click)="payment()" >
+                            <div><i class="fa fa-credit-card fa-user-header"></i>Payment Details</div></a></li>
+                        </ul>
+                      </div>    
+        </div>
+    <div class="col-md-3  col-sm-4 col-xs-7">
+            <div class="dropdown ">
+                    <button class="btn btn-default btn-sm dropdown-toggle" style="    border: none;" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                         <font color="black;" style="font-weight: 600;
+                         color: black;
+                         font-size: 14px;"> <!--i class="fa fa-user-circle-o fa-2x" aria-hidden="true" ></i-->
+                         <img class="img-circle" src="{{profileImageUrl}}" height="30px" weight="30px">
+                       {{userName}} </font>
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                      <li><a (click)="showUserProfile()">
+                        <div><i class="fa fa-user-circle fa-user-header"></i>My Profile</div></a></li>
+                      <li role="separator" class="divider"></li>
+                      <!-- <li><a (click)="myOrders()">
+                                <div><i class="fa fa-folder fa-user-header"></i>Orders</div></a></li>
+                        <li role="separator" class="divider"></li>
+                      <li><a [routerLink]="['view-wishlist']">
+                        <div><i class="fa fa-heart fa-user-header"></i>Wish List <span *ngIf="wishLists?.length != 0" class="badge">{{wishLists?.length}}</span></div></a></li>
+                      <li role="separator" class="divider"></li> -->
+                      <li><a (click)="logout()" >
+                        <div><i class="fa fa-power-off fa-user-header"></i>Logout</div></a></li>
+                    </ul>
+                  </div>    
+    </div>
+  
+  
+</div>
+<div class="row visible-xs">
+<div   *ngIf="userName == ''"  class="col-md-3  col-sm-2  col-xs-6" style="text-align:right">
+    <button class="btn btn-default btn-sm dropdown-toggle" style="    border: none;" type="button"  (click)="businessInfo()" aria-expanded="true"><i class="fa fa-phone fa-user-header"></i>Contact</button>
+</div>
+<div  *ngIf="userName == ''"  class="col-md-2 col-sm-2 col-xs-6">
+    <button class="btn btn-default btn-sm dropdown-toggle" style="    border: none;" (click)="products()" type="button"  aria-expanded="true"><i class="fa fa-user-header fa-search"></i>Products</button>
+</div>
+</div>
+<div   *ngIf="userName == ''"  class="col-md-3  col-sm-2 hidden-xs" style="text-align:right">
+    <button class="btn btn-default btn-sm dropdown-toggle" style="    border: none;" type="button"  (click)="businessInfo()" aria-expanded="true"><i class="fa fa-phone fa-user-header"></i>Contact</button>
+</div>
+<div  *ngIf="userName == ''"  class="col-md-2 col-sm-2 hidden-xs">
+    <button class="btn btn-default btn-sm dropdown-toggle" style="    border: none;" (click)="products()" type="button"  aria-expanded="true"><i class="fa fa-user-header fa-search"></i>Products</button>
+</div>
+<div  *ngIf="userName == ''" class="col-md-6 logout" style="line-height:2.8;">
+        <i class="fa fa-user-o header-icon" aria-hidden="true"></i>
+      <a href="#login">Login</a> | <a href="#signup">Sign Up</a>
+  </div>

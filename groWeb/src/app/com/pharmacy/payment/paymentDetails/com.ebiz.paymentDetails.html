@@ -1,0 +1,108 @@
+<div>
+    <div>
+        <div class="panel panel-primary ">
+            <div class="panel-heading">
+                <h3 class="panel-title"> Payment Details </h3>
+            </div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-2 pull-right">
+                        <input type="button" value="Print" (click)="print()" 
+                       class="btn btn-primary btn-block btn-md">
+                    </div>
+                </div>
+                <div class="row">
+                    <div> &nbsp;</div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-xs-12">
+                        <div class="panel panel-default ">
+                            <!-- <div class="panel-heading" >
+                                My Orders
+                            </div> -->
+                            <div class="panel-body">
+                                <div id="table">
+
+
+                                    <div class="row col-md-12 hidden-xs">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-2"><b>Customer</b></div>
+                                        <div class="col-md-2"><b>AccountNo</b></div>
+                                        <div class="col-md-2"><b>Payment Date</b></div>
+                                        <div class="col-md-2"><b>Amount</b></div>
+                                        <!-- <div class="col-md-2">Payment</div> -->
+                                        <div class="col-md-2"><b>Status</b></div>
+                                    </div>
+                                    <div class="row col-md-12 hidden-xs">
+                                        <HR>
+                                    </div>
+
+                                    <div *ngFor="let payment of payments; let i = index; ">
+                                            <div *ngIf="i <10">
+                                        <div class="row col-md-12">
+                                                <div class="col-md-1">
+                                                        <span class="visible-xs">Payment#:  {{payment.id}}  </span>
+                                                        <span class="hidden-xs">  {{payment.id}}   </span>
+                                                   </div>  
+                                            <div class="col-md-2">
+                                                 <span class="visible-xs"> Customer:   {{payment.userName}}  </span>
+                                                 <span class="hidden-xs">  {{payment.userName}}   </span>
+                                            </div>    
+                                            <div class="col-md-2">
+                                                 <span class="visible-xs"> Account No: <B>{{payment.accountId}} </B></span>
+                                                 <span class="hidden-xs">  {{payment.accountId}} </span>
+                                            </div>
+                                            <div class="col-md-2">
+                                                 <span class="visible-xs"> Payment Date: <B>{{payment.paymentDate}} </B></span>
+                                                 <span class="hidden-xs"> {{payment.paymentDate}} </span>
+                                            </div>
+                                            <div class="col-md-2">
+                                                 <span class="visible-xs"> Amount: <B>$ {{payment.amount | number : '1.2-2'}} </B></span>
+                                                 <span class="hidden-xs">  $ {{payment.amount  | number : '1.2-2'}} </span>
+                                            </div>
+                                            <!-- <div class="col-md-2">
+                                                 <span class="visible-xs"> Balance: <B>${{ order.balance}} </B></span>
+                                                 <span class="hidden-xs">  ${{order.balance}} </span>
+                                            </div> -->
+                                            <div class="col-md-2" [ngStyle]="getStatusColor(payment.paymentRequest)">
+                                                 <span class="visible-xs">  Status: <B>{{payment.paymentRequest}}</B></span>
+                                                 <span class="hidden-xs"> <b> {{payment.paymentRequest}} </b></span>
+                                            </div>
+                                            <div class="col-md-2"></div>
+                                            
+                                            <div class="col-md-2"> </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <HR>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div align="center">
+                        <div>
+                            <div class="col-md-12 col-sm-12 col-xs-12" style="padding-right:0px;padding-left: 0px;">
+                                <span (click)="start()">    <i class="fa fa-backward" aria-hidden="true"></i></span>
+                                 <span (click)="previous()">   <i class="fa fa-caret-left" aria-hidden="true"></i></span>
+                                  <span class="count"> <input type="text" class="form-control pagination-input" style=" width:50px;  display: inline-block;"  [(ngModel)]="currentPage" (keyup.enter)=pagesearch($event.target.value)/> of {{lastPage}}</span>
+                                 
+                                  <span (click)="next()"> <i class="fa fa-caret-right" aria-hidden="true"></i></span>
+                                   <span (click)="end()"><i class="fa fa-forward" aria-hidden="true"></i></span>
+                               </div>
+                        </div>
+           
+           </div>
+            </div>
+            
+        </div>
+    </div>

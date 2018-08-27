@@ -1,0 +1,296 @@
+<style>
+.modal-dialog{
+    position: relative;
+    display: table; 
+    overflow-y: auto;    
+    overflow-x: auto;
+    width: auto;
+
+}
+
+</style>
+<div class="panel panel-primary ">
+    <div class="panel-heading">
+        <h3 class="panel-title">Order Summary</h3>
+    </div>
+
+    <div class="panel-body">
+        <div class="row">
+            <!--div class="col-md-2 col-xs-6 pull-right">
+                <input type="button" (click)="viewMyOrders()" value="View My Orders" class="btn btn-primary btn-block btn-md">
+            </div-->
+            <div class="col-md-2 col-xs-6 pull-right">
+                <input type="button" value="Print" (click)="print()"  class="btn btn-primary btn-block btn-md">
+                <BR>
+            </div>
+            <div *ngIf="orderId != 0" class="col-md-2 col-xs-6 pull-right">
+                <button type="button" data-toggle="modal" data-target="#order2cart-confirm"   class="btn btn-primary btn-block btn-md"  >
+                    Add Order to Cart
+                </button>
+                <BR>
+            </div>
+            <div *ngIf="order.paymentMethod != 'Pay By Card' && orderId != 0" class="col-md-2 col-xs-6 pull-right">
+                <input type="button" data-toggle="modal"  data-target="#reorder-confirm"  value="Re-Order" class="btn btn-primary btn-block btn-md">
+                <BR>
+            </div>
+            <div  *ngIf="orderId != 0 && order.statusId != 9"  class="col-md-2 col-xs-6 pull-right">
+                <input type="button" data-toggle="modal"  data-target="#cancel-confirm" value="Cancel Order" class="btn btn-primary btn-cancel">
+                <BR>
+            </div>
+        </div>
+        <div class="row">
+            <div> &nbsp;</div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-4 col-xs-12">
+                <div class="panel panel-default ">
+                    <div class="panel-heading">
+                        Order Summary
+                    </div>
+                    <div class="panel-body">
+                        <div>
+                            Order# : {{order.id}}
+                            <BR>Order Placed: {{order.orderDate}}
+                            <BR>Order Status:<span *ngIf="order.statusId == 9"><font style="color:red"><b> {{order.status}}</b></font></span>
+                                <span *ngIf="order.statusId != 9"><font> {{order.status}}</font></span>
+                            <BR> Total items : {{order.totalQuantity}}
+                            <BR>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <div class="panel panel-default ">
+                    <div class="panel-heading">
+                        Billing Summary
+                    </div>
+                    <div class="panel-body">
+                        <div>
+                            Item(s) subtotal: <b>$ {{order.totalPrice}}</b>
+                            <BR> Payment Method: {{order.paymentMethod}}<br>
+                           <span *ngIf="orderId != 0 && order.paymentMethod == 'Pay By Card'"> Card No:<b>{{order.cardNo}}</b></span>
+                           <span *ngIf="orderId == 0 &&order.paymentMethod == 'Pay By Card'">Card No: <b>{{accountNo}}</b></span>
+                            <BR><b>Billing Address:</b>
+
+                            <address *ngIf="orderId == 0">
+                                {{order.billingAddress.street}}
+                                <BR> {{order.billingAddress.city}} {{order.billingAddress.state}} {{order.billingAddress.zipcode}}
+                            </address>
+                            <address *ngIf="orderId != 0">
+                                {{billingAddress.street}}
+                                <BR> {{billingAddress.city}} {{billingAddress.state}} {{billingAddress.zipcode}}
+                            </address>
+
+                        </div>
+                        <div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="order.shippingAddress != null"class="col-md-4 col-xs-12 ">
+                <div class="panel panel-default ">
+                    <div class="panel-heading">
+                        Shipping Address
+                    </div>
+                    <div class="panel-body">
+                        <b>Shipping Address:</b>
+                        <BR>
+                        <address>
+                            {{order.shippingAddress.street}}
+                            <BR> {{order.shippingAddress.city}} {{order.shippingAddress.state}} {{order.shippingAddress.zipcode}}
+                        </address>
+                        Shipping Method: Standard
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="panel panel-default ">
+                    <div class="panel-heading">
+                        Items Ordered
+                    </div>
+                    <div class="panel-body">
+                    <div id="table">
+                        <div class="row col-md-12 hidden-xs">
+                            <div class="col-md-6">Item</div>
+                            <div class="col-md-2">Quantity </div>
+                            <div class="col-md-2">Price</div>
+                            <div class="col-md-2">Total Price</div>
+                        </div>
+                        <div class="row col-md-12 hidden-xs"><HR></div>
+                        <div *ngFor="let orderDetail of order.orderDetail; let i = index; ">
+                            <div class="row col-md-12">
+                                <div class="col-md-6">
+                                    <span class="visible-xs"> Product: {{orderDetail.productName}} </span> 
+                                    <span class="hidden-xs"> {{orderDetail.productName}} </span> 
+                                    <span *ngIf="orderDetail.productId==1">
+                                      <a (click)="showUpoloadedFiles(orderDetail.orderId,orderDetail.cartId)" data-toggle="modal" data-target="#myModal"><font color="green" ><i class="fa fa-file" aria-hidden="true"></i></font></a>
+                                    </span>
+                                </div>
+                                <div class="col-md-2">
+                                    <span class="visible-xs"> Quantity: {{orderDetail.quantity}} </span> 
+                                    <span class="hidden-xs"> {{orderDetail.quantity}} </span> 
+                                </div>
+                                <div class="col-md-2">
+                                    <span class="visible-xs"> Price: {{orderDetail.price}} </span> 
+                                    <span class="hidden-xs"> {{orderDetail.price}} </span> 
+                                </div>
+                                <div class="col-md-2">
+                                    <span class="visible-xs"> Total Quantity: {{orderDetail.quantity * orderDetail.price}}</span> 
+                                    <span class="hidden-xs"> {{orderDetail.quantity * orderDetail.price  | number : '1.2-2'}} </span> 
+                                </div>
+                                <div class="row col-md-12">
+                                    <HR>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div *ngIf="order.shippingAddress != null" class="row order-sum">
+                            <div class="col-md-6"></div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-2">
+                                    <span class="visible-xs">Shipping Cost: {{order.shippingCost}}</span>
+                                    <span class="hidden-xs"  style="float:right">  Shipping Cost</span>
+                            </div>
+                            <div class="col-md-2 hidden-xs" style="text-align:center">
+                                    <span class=""> ${{order.shippingCost}}</span>
+                                </div>
+                        </div>
+                        <div class="row order-sum">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2">
+                                        <span class="visible-xs">Estimated Tax: {{order.tax}}</span>
+                                        <span class="hidden-xs"  style="float:right">  Estimated Tax</span>
+                                </div>
+                                <div class="col-md-2 hidden-xs" style="text-align:center">
+                                        <span class=""> ${{order.tax | number:'1.2-2'}}</span>
+                                    </div>
+                            </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+ <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg modal-xs">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+         
+          <img class="img-responsive" src="{{firstPrescription}}" width="500" height="300"  />
+        </div>
+        <div class="modal-footer">
+            <div class="row">
+             <div class="col-md-3 col-xs-3" *ngFor="let presFile of prescriptionUploads; let i = index; ">
+                 <a  (click)="firstPrescription=presFile" > <img class="img-responsive" src="{{presFile}}" width="100" height="100" /> </a>
+             </div>
+            </div> 
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <div class="modal fade" id="order2cart-confirm" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+    <div class="modal-header">
+        <a href="#" data-dismiss="modal" aria-hidden="true" class="close">×</a>
+         <h3>Adding Order to Cart </h3>
+    </div>
+    <div class="modal-body">
+        <p>You are about to add this order to Cart.</p>
+        <p> If you dont want to change the product, quantity, shipping address, billing address and payment methods
+            please use the other Button "ReOrder" which will copy the exact order.</p>
+        <p>Do you want to proceed?</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#" data-dismiss="modal" (click)="addOrder2Cart(order.id)" id="btnYes" class="btn danger">Yes</a>
+      <a href="#" data-dismiss="modal" aria-hidden="true" class="btn secondary">No</a>
+    </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <div class="modal fade" id="reorder-confirm" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+    <div class="modal-header">
+        <a href="#" data-dismiss="modal" aria-hidden="true" class="close">×</a>
+         <h3>Single click ReOrder </h3>
+    </div>
+    <div class="modal-body">
+        <p>You are about to place the same order.</p>
+        <p> If you  want to change the product, quantity, shipping address, billing address and payment methods
+            please use the other Button "Add Order to Cart" which will copy the exact order.</p>
+        <p>Do you want to proceed?</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#" data-dismiss="modal" (click)="copyOldOrder(order.id)" id="btnYes" class="btn danger">Yes</a>
+      <a href="#" data-dismiss="modal" aria-hidden="true" class="btn secondary">No</a>
+    </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <div class="modal fade" id="cancel-confirm" role="dialog">
+        <div class="modal-dialog">
+        
+          <!-- Modal content-->
+          <div class="modal-content">
+        <div class="modal-header">
+            <a href="#" data-dismiss="modal" aria-hidden="true" class="close">×</a>
+             <h3>Single click Cancel Order </h3>
+        </div>
+        <div class="modal-body">
+            <p>You are about to cancel the order.</p>
+            <!-- <p> If you  want to change the product, quantity, shipping address, billing address and payment methods
+                please use the other Button "Add Order to Cart" which will copy the exact order.</p> -->
+            <p>Do you want to proceed?</p>
+        </div>
+        <div class="modal-footer">
+          <a href="#" data-dismiss="modal" (click)="cancelOrder()" id="btnYes" class="btn danger">Yes</a>
+          <a href="#" data-dismiss="modal" aria-hidden="true" class="btn secondary">No</a>
+        </div>
+          </div>
+          
+        </div>
+      </div>
+
+  <modal #placOrderProcessing id="enterCardDetails"
+  [show-modal]="isModalOpen"
+  [title]="''"
+  >
+  <div class="popup-content">
+   <span style="font-size:32px;">Order is Processing...</span><i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
+  </div>
+  <div class="popup-footer">
+
+  </div>
+  </modal>
+
+    </div>
+</div>

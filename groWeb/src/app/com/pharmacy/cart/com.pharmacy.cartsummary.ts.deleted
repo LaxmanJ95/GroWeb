@@ -1,0 +1,40 @@
+import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { Router,Route	,RouterLink, RouterModule } from '@angular/router';
+
+
+import {CartService} from './../service/com.pharmacy.service.cartservice';
+import {Cart} from './../model/com.pharmacy.model.cart';
+import {CartItem} from './../model/com.pharmacy.model.cart';
+import {SessionDataService} from '../../common/service/com.common.sessiondata'
+
+@Component({
+  selector: 'cart-summary',
+  templateUrl: 'app/com/pharmacy/cart/com.pharmacy.cartsummary.html',
+  providers: [CartService,SessionDataService]
+
+})
+export class CartSummary {
+  totalQuantity: string ='0';
+  totalPrice: string ='0';
+  constructor(private _router: Router,
+              private _cartService : CartService) {
+             _cartService.getCartSummary().then(res => this.handleResponse(res));
+            
+             SessionDataService.getInstance().totalCartItemCount$.subscribe(total=> {
+               //alert(total);
+               this.totalQuantity=total;
+               //console.log("Header Total cart items:"+total);
+             });
+  }
+
+  handleResponse(res){
+    this.totalQuantity = res.cart.totalQuantity;
+    this.totalPrice = res.cart.totalPrice;
+    
+  }
+
+  showCart(){
+      this._router.navigate(['dashboard/view-cart']);
+  }
+}

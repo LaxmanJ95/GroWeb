@@ -1,0 +1,113 @@
+import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { Router,Route	,RouterLink, RouterModule } from '@angular/router';
+import {Injector} from '@angular/core';
+import  {FormControl, Validators,FormGroup,FormBuilder}  from '@angular/forms'; 
+import {ElementRef,ViewChild} from '@angular/core' /*Import View Child*/
+
+import {CartService} from './../service/com.pharmacy.service.cartservice';
+import {OrderService} from './../service/com.ebiz.service.orderservice';
+import {Cart} from './../model/com.pharmacy.model.cart';
+import {CartItem} from './../model/com.pharmacy.model.cart';
+import {CartTotal} from './../model/com.pharmacy.model.cart';
+import {OrderRequest} from './../model/com.ebiz.model.order';
+import {SessionStorageService} from '../../common/service/com.common.sessionstorage';
+import {UserProfileService} from '../../usermgmt/service/com.service.userprofile';
+import {UserMgmtService} from '../../usermgmt/service/com.service.usermgmt';
+import {Address} from '../../common/model/com.common.model.address';
+import {FormComponent} from '../../common/basic/com.common.basic.formcomponent';
+import {AlertService} from '../../common/service/alert/com.common.service.alertservice'
+import {SessionDataService} from '../../common/service/com.common.sessiondata'
+@Component({
+  moduleId: module.id,
+  selector: 'checkout-cart',
+  templateUrl: 'com.ebiz.checkoutcart.html',
+  providers: [CartService,AlertService,OrderService,UserMgmtService]
+
+})
+export class CheckoutCart extends FormComponent{
+  cartTotal :CartTotal;
+  profileAddress : any;
+  shippingAddress : Address;
+  email: string;
+  primaryPhone : string;
+  payMethod:any;
+
+  @ViewChild('addAddressButton') demo:ElementRef;
+
+  constructor(private _userProfileService: UserProfileService,
+              private _userMgmtService: UserMgmtService,
+              injector:Injector,
+              private _orderService : OrderService,
+              private _cartService : CartService) {
+
+              super(injector);  
+             
+              this.cartTotal = _cartService.getCartSummaryFromSession();  
+              this.profileAddress = _userProfileService.getAddress();
+              this.shippingAddress = _userProfileService.getAddress();
+              if(!this.shippingAddress){
+               //alert(this.shippingAddress)
+                this.shippingAddress = new Address();
+              }
+              this.email = _userProfileService.getUserProfileValue('email');
+              this.primaryPhone = _userProfileService.getUserProfileValue('phoneNumber');        
+
+             
+
+              
+  }
+  
+  placeOrder(){
+      if(this.shippingAddress.id==null){
+        alert("Please provide shipping address");
+       return;
+      }
+      if(this.payMethod==null){
+        alert("Please provide Payment Method & Checkout");
+        return;
+      }
+      var orderRequest:OrderRequest = new OrderRequest();
+      if(this.shippingAddress.id!=null){
+        orderRequest.billingAddressId = this.shippingAddress.id;
+        orderRequest.shippingAddressId = this.shippingAddress.id;
+      }else{
+      //   orderRequest.billingAddressId = this.profileAddress.id;
+      //  orderRequest.shippingAddressId = this.profileAddress.id;       
+      }
+      orderRequest.paymentMethod = this.payMethod;  
+      this._orderService.placeOrder(orderRequest).then(res => this.cb_placeOrder(res));
+      
+  }
+  cb_placeOrder(res){
+    if(res.isSuccess){
+      this._loggingService.logDebug(this.getName(), JSON.stringify(res));
+      this._sessionStorageService.setObject("placeOrderResponse",res.order);
+      AlertService.getInstance().publishMessage('success','Order place sucessfully! Order#:'+ res.order.id);
+      SessionDataService.getInstance().updateTotalCartItemsCount("0");
+      this._router.navigate(['dashboard/order-summary']);
+    // alert(res.isSuccess);
+    }else{
+      alert("Error in placing order")
+    }
+  }
+
+  addNewAddress(){
+  //  alert(this.shippingAddress);
+    this.shippingAddress.addressType = 1;
+    this.shippingAddress.userId=this._userProfileService.getUserId();
+    this._loggingService.logDebug(this.getName(), JSON.stringify(this.shippingAddress));
+    this._userMgmtService.addNewAddress(this.shippingAddress).then(res => this.cb_addNewAddress(res));
+  }  
+  cb_addNewAddress(res){
+    if(res.isSuccess){
+    this.shippingAddress.id = res.id;
+   // this.profileAddress = this.shippingAddress;_userProfileService
+     this._userProfileService.setUserProfileValue('address',this.shippingAddress);
+     AlertService.getInstance().publishMessage('success','Address updated!:'+ this.shippingAddress.street+"..");
+   //  alert(this.demo);
+     this.demo.nativeElement.click();
+     //$('.collapse').collapse()
+    }
+  }
+}

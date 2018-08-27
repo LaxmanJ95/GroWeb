@@ -1,0 +1,10 @@
+{
+    "APIService": "http://www.10mg.us:4000",
+    "RESTAPIService" :"http://www.10mg.us:8080/groWAPI",
+    "appkey": "abc",
+    "loggingLevel": {
+        "isLogDebug": true,
+        "isLogError": true,
+        "isLogInfo": true
+    }
+}

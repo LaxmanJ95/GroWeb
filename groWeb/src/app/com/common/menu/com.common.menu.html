@@ -1,0 +1,19 @@
+<div *ngIf="userId != 0"id="menu" class="visible-xs">
+  <nav class="navbar navbar-inverse" style="">
+    <div class="container-fluid">
+      <div class="navbar-header" style="height:0px;"> <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-9"
+          aria-expanded="false"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>        
+          <a href="#" class="navbar-brand"><font color="white">  </font></a> </div>
+      <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-9" aria-expanded="false" style="height: 1px;">
+        <ul class="nav navbar-nav">
+          <!--li class="active"><a [routerLink]="['']">Home <span class="sr-only">(current)</span></a></li-->
+          <li style="margin-top: -4px;"><a [routerLink]="['grocery-products']" routerLinkActive="active">Search Product</a></li>
+          <li style="margin-top: -4px;"><a [routerLink]="['view-wishlist']" routerLinkActive="active">My WishList</a></li>
+          <li style="margin-top: -4px;"> <a [routerLink]="['my-orders']" routerLinkActive="active">View My Orders</a></li>
+          <li *ngIf="roleId <3" style="margin-top: -4px;"> <a [routerLink]="['customer-orders']" routerLinkActive="active">View Customer Orders</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+</div>

@@ -1,0 +1,10 @@
+{
+    "APIService": "http://localhost:4000",
+    "RESTAPIService" :"http://localhost:8080/groWAPI",
+    "appkey": "abc",
+    "loggingLevel": {
+        "isLogDebug": true,
+        "isLogError": true,
+        "isLogInfo": true
+    }
+}
